@@ -61,8 +61,18 @@ class Xenmobile_RESTWS_Main extends Xenmobile_RESTWS_Abstract
 
             return ( true );
           }
+          print_r(parent::_getLastHttpReturn());
+          $this->log($this->_getLastRequestResult()->message, $this->_getLastRequestResult()->status);
       }
-      $this->log($this->_getLastRequestResult()->message, $this->_getLastRequestResult()->status);
+      else if ((int)self::getLastHttpReturnCode() == 0)
+      {
+        if ( parent::_getLastRequestCurlError() !== null)
+        {
+          $this->_oRequestLastReturn = new \StdClass;
+          $this->_oRequestLastReturn->message = parent::_getLastRequestCurlError();
+          $this->_oRequestLastReturn->status = 0;
+        }
+      }
 
       return ( false );
     }

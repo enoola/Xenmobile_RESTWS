@@ -24,9 +24,10 @@ abstract class Xenmobile_RESTWS_Abstract
   private $_debug = false;
   private $_bVerifySSL = false;
   private $_szAuthToken = null;
-  private $_oRequestLastReturn = null;
+  protected $_oRequestLastReturn = null;
   private $_arLastHttpReturn = 0;
   private $_szLastJsonRequest = null;
+  private $_szLastRequestCurlError = null;
 
   private $_errorCodes = array();
 
@@ -185,6 +186,10 @@ abstract class Xenmobile_RESTWS_Abstract
     //execute query
     $result = curl_exec($ch);
     $info = curl_getinfo($ch);
+
+    if ($info['http_code'] == 0) //an error (bad fqdn for example..
+      $this->_szLastRequestCurlError = curl_error ( $ch );
+
     curl_close($ch);
 
     if (isset($jsonParams))
@@ -199,6 +204,8 @@ abstract class Xenmobile_RESTWS_Abstract
 
     switch ($info['http_code'])
     {
+      case 0:
+        return (false);
       case 403 : //bad request
         $this->log('returned 403', __METHOD__);
         return ( false );
@@ -269,6 +276,11 @@ abstract class Xenmobile_RESTWS_Abstract
   protected function _getLastJsonRequest()
   {
     return ( $this->_szLastJsonRequest );
+  }
+
+  protected function _getLastRequestCurlError()
+  {
+    return ( $this->_szLastRequestCurlError );
   }
 
   protected function _setLastRequestResult( $oRequestLastReturn )
