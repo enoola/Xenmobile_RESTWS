@@ -1,6 +1,9 @@
 <?Php
 namespace enoola_Citrix_Client;
 require_once('./class/Xenmobile_RESTWS_Exception.php');
+require_once('./class/IXenmobile_RESTWS_Authentication.php');
+
+
 
 /*
  * Purpose propose a php client for Citrix Xenmobile REST Webservice
@@ -21,13 +24,13 @@ abstract class Xenmobile_RESTWS_Abstract
   private $_szFQDN = '';
 
   private $_szClassName = null; //contains the classname
-  private $_debug = false;
+  private $_debug = true;
   private $_bVerifySSL = false;
-  private $_szAuthToken = null;
+  protected $_szAuthToken = null;
   protected $_oRequestLastReturn = null;
-  private $_arLastHttpReturn = 0;
-  private $_szLastJsonRequest = null;
-  private $_szLastRequestCurlError = null;
+  protected $_arLastHttpReturn = array();
+  protected $_szLastJsonRequest = null;
+  protected $_szLastRequestCurlError = null;
 
   private $_errorCodes = array();
 
@@ -82,7 +85,7 @@ abstract class Xenmobile_RESTWS_Abstract
   * @param string classname
   * @return void
   */
-  public function setClassname( $szClassName )
+  protected function _setClassname( $szClassName )
   {
     $this->_szClassName = $szClassName;
   }
@@ -93,7 +96,7 @@ abstract class Xenmobile_RESTWS_Abstract
   *
   * @return string
   */
-  public function getClassname( $szClassName )
+  protected function _getClassname( )
   {
     return ( $this->_szClassName );
   }
@@ -158,7 +161,6 @@ abstract class Xenmobile_RESTWS_Abstract
     if ($arNewHeaders == null)
     {
       $arHeaders = array('Content-Type: application/json');
-
       if ($this->_szAuthToken != null)
       {
         $arHeaders[] = 'auth_token:'.$this->_szAuthToken ;
@@ -223,44 +225,34 @@ abstract class Xenmobile_RESTWS_Abstract
   }
 
 
-  protected function _getAuthToken()
+
+
+/*
+* ---------------------- ICI --------------------------
+*/
+  abstract protected function _setAuthToken( $szAuthToken );
+/*  protected function _getAuthToken()
   {
     $this->log(__METHOD__, 'Function');
     //$this->log( $this->_szAuthToken, __METHOD__);
     return ( $this->_szAuthToken );
   }
+*/
+//  abstract protected function _getAuthToken();
 
-  /**
-   * Log different data
-   *
-   * @param string $szAuthToken : set token obtained when login
-   * @return void
-   */
-  protected function _setAuthToken( $szAuthToken )
-  {
-    $this->_szAuthToken = $szAuthToken ;
-    return ;
-  }
 
-  /**
-   * Return last request result body
-   *
-   * @return mixed : object with last request return can be null
-   */
-  public function _getLastRequestResult()
-  {
-    return ( $this->_oRequestLastReturn );
-  }
 
+/*
+  abstract protected function _setLastRequestResult( $szLastRequestResult );
+  abstract protected function _setLastHttpReturn( $szLastHttpReturn );
+  abstract protected function _setLastJsonRequest( $szLastJsonRequest );
+  abstract protected function _setLastRequestCurlError( $szLastRequestCurlError );
+*/
   /**
    * Return last request array http information
    *
    * @return mixed : array with last request return can be null
    */
-  protected function _getLastHttpReturn( )
-  {
-    return ( $this->_arLastHttpReturn );
-  }
 
   protected function _setLastHttpReturn( $arLastHttpReturn )
   {
@@ -273,20 +265,56 @@ abstract class Xenmobile_RESTWS_Abstract
     return;
   }
 
-  protected function _getLastJsonRequest()
+  protected function _setLastRequestCurlError( $szLastRequestCurlError )
   {
-    return ( $this->_szLastJsonRequest );
+    $this->_szLastRequestCurlError = $szLastRequestCurlError;
+    return ;
   }
 
+  protected function _setLastRequestResult( $oRequestLastReturn )
+  {
+    $this->_oRequestLastReturn = $oRequestLastReturn;
+    if (is_string($oRequestLastReturn))
+    {
+      $this->_oRequestLastReturn = json_decode( $oRequestLastReturn );
+    }
+  }
+
+/*
+  protected function _getLastHttpReturn( )
+  {
+    return ( $this->_arLastHttpReturn );
+  }
   protected function _getLastRequestCurlError()
   {
     return ( $this->_szLastRequestCurlError );
   }
 
-  protected function _setLastRequestResult( $oRequestLastReturn )
+    protected function _getLastJsonRequest()
+    {
+      return ( $this->_szLastJsonRequest );
+    }
+*/
+    /**
+     * Return last request result body
+     *
+     * @return mixed : object with last request return can be null
+     */
+    ///protected function _getLastRequestResult()
+    ///{
+    ///  return ( $this->_oRequestLastReturn );
+    ///}
+
+/*
+  protected function setProperties($szLastRequestCurlError, $szLastRequestResult, $szLastHttpReturn)
   {
-    $this->_oRequestLastReturn = json_decode( $oRequestLastReturn );
+    $this->_szLastRequestCurlError = $szLastRequestCurlError;
+    self::_setLastRequestResult( $szLastRequestResult );
+    self::_setLastHttpReturn( $szLastHttpReturn );
+
+    return ;
   }
+*/
 
   /**
    * Needs to be improved
