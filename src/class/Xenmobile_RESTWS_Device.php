@@ -12,8 +12,9 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   public function __construct($szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
   {
     $this->log('in', __METHOD__);
-    parent::__construct( self::SZ_WS_CLASSNAME, $szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false);
-    parent::_setAuthToken( self::SZ_WS_CLASSNAME );
+    $this->log(self::SZ_WS_CLASSNAME, __METHOD__);
+    parent::__construct( $szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false);
+    parent::_setClassname( self::SZ_WS_CLASSNAME );
   }
 
   public function __destruct()
@@ -88,24 +89,24 @@ S'}]}]}",
 
     if ( $retValue == true )
     {
-      if ( $this->_getLastRequestResult() && is_object($this->_getLastRequestResult()) )
+      if ( $this->getLastRequestResult() && is_object($this->getLastRequestResult()) )
         {
-          if ( isset( $this->_getLastRequestResult()->status ) )
+          if ( isset( $this->getLastRequestResult()->status ) )
             {
-              return ( $this->_getLastRequestResult() );
+              return ( $this->getLastRequestResult() );
             }
         }
     }
     elseif ($this->_getLastHttpReturn()['http_code'] == 403)
     {
-      throw new Xenmobile_RESTWS_Exception( $this->_getLastRequestResult() );
+      throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult() );
     }
-    if ($this->_getLastRequestResult()->status != 0)
+    if ($this->getLastRequestResult()->status != 0)
     {
-        $this->log( $this->_getLastRequestResult(), __METHOD__ );
+        $this->log( $this->getLastRequestResult(), __METHOD__ );
     }
 
-    throw new Xenmobile_RESTWS_Exception( $this->_getLastRequestResult()->message, $this->_getLastRequestResult()->status );
+    throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult()->message, $this->getLastRequestResult()->status );
   }
 
   /*
@@ -136,10 +137,9 @@ S'}]}]}",
    *                              ->(array)arFilters[]->(string)displayName
    *                                                  ->(string)name
    */
-  //return an array with available filters.
   public function GetAvailableFilterIds()
   {
-    //we send a "fake query" to get the content of : currentFiler
+    //we send a "fake query" to ONLY get the content of : currentFiler
     $arCurrentFilters = array();
     $arQuery = array('start' => 0, 'limit' => 0, 'sortOrder' => 'ASC','sortColumn'=>'ID','enableCount'=>'false',
                     'search'=>'__NOT_TO_BE_FOUND__');
@@ -149,7 +149,6 @@ S'}]}]}",
     {
       foreach ($oReturn->currentFilter->detail as $oneDetail)
       {
-//        $arCurrentFilters[ $oneDetail->name ] = array();
         $arCurrentFilters[ $oneDetail->name ] = new \StdClass;
         $arCurrentFilters[ $oneDetail->name ]->displayName = $oneDetail->displayName;
         $arCurrentFilters[ $oneDetail->name ]->arFilters = array();
@@ -184,28 +183,28 @@ S'}]}]}",
 
     if ($this->_getLastHttpReturn()['http_code'] == 403)
     {
-      throw new Xenmobile_RESTWS_Exception( $this->_getLastRequestResult() );
+      throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult() );
     }
     else
     {
       echo '$retValue == true'.PHP_EOL;
-      if ( $this->_getLastRequestResult() && is_object($this->_getLastRequestResult()) )
+      if ( $this->getLastRequestResult() && is_object($this->getLastRequestResult()) )
         {
-          echo '_getLastRequestResult()';
-          print_r($this->_getLastRequestResult());
-          if ( isset( $this->_getLastRequestResult()->status ) )
+          echo 'getLastRequestResult()';
+          print_r($this->getLastRequestResult());
+          if ( isset( $this->getLastRequestResult()->status ) )
             {
-              return ( $this->_getLastRequestResult() );
+              return ( $this->getLastRequestResult() );
             }
         }
     }
 
-    if ($this->_getLastRequestResult()->status != 0)
+    if ($this->getLastRequestResult()->status != 0)
     {
-        $this->log( $this->_getLastRequestResult(), __METHOD__ );
+        $this->log( $this->getLastRequestResult(), __METHOD__ );
     }
 
-    throw new Xenmobile_RESTWS_Exception( $this->_getLastRequestResult()->message, $this->_getLastRequestResult()->status );
+    throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult()->message, $this->getLastRequestResult()->status );
   }
   /* End implementation Get Device information by ID
    * xenmobile/api/v1/device/{device_id}
