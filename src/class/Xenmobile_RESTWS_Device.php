@@ -1,5 +1,6 @@
 <?Php
 namespace enoola_Citrix_Client;
+
 require_once('./class/Xenmobile_RESTWS_Exception.php');
 require_once('./class/Xenmobile_RESTWS_Authentication.php');
 
