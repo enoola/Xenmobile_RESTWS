@@ -27,7 +27,7 @@ abstract class Xenmobile_RESTWS_Abstract
   /*
    * debug change to true if you want to see a what's going on
    */
-  private $_debug = true;
+  private $_debug = false;
   private $_bVerifySSL = false;
   protected $_szAuthToken = null;
   protected $_oRequestLastReturn = null;

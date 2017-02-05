@@ -42,6 +42,7 @@ S'}]}]}",
 
 */
 
+  /*
   //public function GetDeviceByFilters( $filterIds, $szLimit, $szStart = '0-999', $szSortOrder = 'ASC', $szSortColumn = 'ID',
   //    $szSearch = 'Any search term',$szEnableCount = 'false', $arConstraintList = null,  )
   public function GetDeviceByFiltersArgs( $filterIds, $szSearch = 'Any search term', $szSortOrder = 'ASC', $szSortColumn = 'ID',
@@ -71,7 +72,7 @@ S'}]}]}",
       $arQuery['filterIds'] = $filterIds;
 
     self::GetDeviceByFiltersAr( $arQuery );
-  }
+  } */
 
   /*
    * GetDeviceByFilters,
@@ -97,7 +98,7 @@ S'}]}]}",
             }
         }
     }
-    elseif ($this->_getLastHttpReturn()['http_code'] == 403)
+    elseif ($this->getLastHttpReturn()['http_code'] == 403)
     {
       throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult() );
     }
@@ -174,24 +175,28 @@ S'}]}]}",
    /* Begin implementation Get Device information by ID
     * xenmobile/api/v1/device/{device_id}
     */
-
+  /*
+   * GetDeviceInformationByID,
+   *
+   * @params deviceID
+   * @return (array)ar[nodename][]->(string)displayName
+   *                              ->(array)arFilters[]->(string)displayName
+   *                                                  ->(string)name
+   */
   public function GetDeviceInformationByID($nDeviceID)
   {
     $this->log(__METHOD__);
 
     $retValue = $this->_doRequest($nDeviceID, null, null, 'get');
 
-    if ($this->_getLastHttpReturn()['http_code'] == 403)
+    if ($this->getLastHttpReturn()['http_code'] == 403)
     {
       throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult() );
     }
     else
     {
-      echo '$retValue == true'.PHP_EOL;
       if ( $this->getLastRequestResult() && is_object($this->getLastRequestResult()) )
         {
-          echo 'getLastRequestResult()';
-          print_r($this->getLastRequestResult());
           if ( isset( $this->getLastRequestResult()->status ) )
             {
               return ( $this->getLastRequestResult() );
@@ -212,16 +217,12 @@ S'}]}]}",
 
 
 
-  /* Begin implementation Get Device applications by device ID
-   * xenmobile/api/v1/device/{device_id}
+  /*
+   * Display available filters,
+   * show what value are authrorized in search field 'filterIds'
+   *
+   * @return void
   */
-
-  /* End implementation
-   * xenmobile/api/v1/device/filter
-  */
-
-
-
   public function DisplayAvailableFilterIds()
   {
 
@@ -236,15 +237,156 @@ S'}]}]}",
 
         foreach ($oneArDetail->arFilters as $key => $oneEntry)
         {
-          //echo '  Human Readable : '. $oneEntry->displayName. PHP_EOL;
-          //echo '  Programatic    : '. $oneEntry->name. PHP_EOL;
           echo ' '.$oneEntry->displayName . ':' . $oneEntry->name. PHP_EOL;
         }
       }
     }
-    return ;
+    return (null) ;
   }
 
+  /*
+   * Get device apps by device ID,
+   *
+   * @param int[0-999] nDevice
+   *
+   * @return StdClassname application[]->(string)name, status,...
+   */
+   public function GetAppsByDeviceID($nDeviceID)
+   {
+     return ( $this->_getInformationByDeviceID('apps', $nDeviceID) );
+   }
+
+   /*
+    * Get device actions by device ID,
+    *
+    * @param int[0-999] nDevice
+    *
+    * @return StdClassname actions[]->(string)ressourceType, ressourceTypeLabel,...
+    */
+    public function GetActionsByDeviceID($nDeviceID)
+    {
+      return ( $this->_getInformationByDeviceID('actions', $nDeviceID) );
+    }
+
+    /*
+     * Get device delivery groups by device ID,
+     *
+     * @param int[0-999] nDevice
+     *
+     * @return StdClassname deliveryGroups[]->(string)statuslabel, linkey, status,...
+     */
+     public function GetDeliveryGroupsByDeviceID($nDeviceID)
+     {
+       return ( $this->_getInformationByDeviceID('deliverygroups', $nDeviceID) );
+     }
+
+
+    /*
+     * Get device Managed Software Inventory by device ID,
+     *
+     * @param int[0-999] nDevice
+     *
+     * @return StdClassname softwareInventory[]->(string)version, blacklistCompliant, suggestedListCompliant,...
+     */
+     public function GetManagedSoftwareInventoryByDeviceID($nDeviceID)
+     {
+       return ( $this->_getInformationByDeviceID('managedswinventory', $nDeviceID) );
+     }
+
+
+    /*
+     * Get device Policies by Device ID,
+     *
+     * @param int[0-999] nDevice
+     *
+     * @return StdClassname policies[]->(string)version, ressourceType, ressourceTypeLabel,...
+     */
+     public function GetPoliciesByDeviceID($nDeviceID)
+     {
+       return ( $this->_getInformationByDeviceID('policies', $nDeviceID) );
+     }
+
+
+     /*
+      * Get device Software Inventory by device ID,
+      *
+      * @param int[0-999] nDevice
+      *
+      * @return StdClassname softwareInventory[]->(string)version, blacklistCompliant, suggestedListCompliant,...
+      */
+      public function GetSoftwareInventoryByDeviceID($nDeviceID)
+      {
+        return ( $this->_getInformationByDeviceID('softwareinventory', $nDeviceID) );
+      }
+
+    /*
+     * Get device Software Inventory by device ID,
+     *
+     * @param int[0-999] nDevice
+     *
+     * @return StdClassname softwareInventory[]->(string)version, blacklistCompliant, suggestedListCompliant,...
+     */
+     public function GetGPSCoordinateByDeviceID($nDeviceID)
+     {
+       return ( $this->_getInformationByDeviceID($nDeviceID, 'locations') );
+     }
+
+
+   /*
+    * _getAvailableFilterIds,
+    * made to ease implementation of different methods Get***ByDeviceID()
+    *
+    * @param string szMethod
+    * @param string szPath
+    * @return (StdClass|null)
+    *
+    */
+   //private function _getInformationByDeviceID( $szSeekedInformation, $nDeviceID )
+   private function _getInformationByDeviceID(  $szPath, $szMethod )
+   {
+     $this->log(__METHOD__);
+
+     if ( is_string( $szMethod ) )
+      {
+        if (!is_numeric($szPath))
+           throw new Xenmobile_RESTWS_Exception( 'argument $szPath must be numeri if $szMethod is not string. value given :'.$szPath  );
+      }
+      if ( is_numeric( $szMethod ) )
+       {
+         if (!is_string($szPath))
+           throw new Xenmobile_RESTWS_Exception( 'argument $szPath must be string if $szMethod is numeric. value given :'.$szPath  );
+       }
+
+     $retValue = $this->_doRequest($szMethod, $szPath, null, 'get');
+
+     if ($this->getLastHttpReturn()['http_code'] == 403)
+     {
+       throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult() );
+     }
+     else
+     {
+       if ( $this->getLastRequestResult() && is_object($this->getLastRequestResult()) )
+         {
+           if ( isset( $this->getLastRequestResult()->status ) )
+             {
+               return ( $this->getLastRequestResult() );
+             }
+         }
+     }
+
+     if ($this->getLastRequestResult()->status != 0)
+     {
+         $this->log( $this->getLastRequestResult(), __METHOD__ );
+     }
+
+     throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult()->message, $this->getLastRequestResult()->status );
+   }
+
+
+
 }
+
+
+
 
 ?>

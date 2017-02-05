@@ -15,19 +15,38 @@ Citrix Xenmobile (version >10.3)
 PhP >= 5.6
  . https://secure.php.net/manual/en/
 
+#Implemented class/method
+
+.Xenmobile_RESTWS_Abstract
+|..Xenmobile_RESTWS_Authentication /authentication
+  ..-login : /login
+  ..-cwclogin : /cwclogin
+  ..-logout : /logout
+  |..Xenmobile_RESTWS_Device /device
+    ..-GetDeviceByFilters /filter
+    ..-GetDeviceByFilters_EasySearch
+    ..-GetAvailableFilterIds
+    ..-DisplayAvailableFilterIds
+    ..-GetDeviceInformationByID /filter/{id}
+    
+   NO Modification method added yet only geter
 ##Usage Example
 ```php
 /*
  * Consume authentication webservice
- * login, logout 
+ * login, logout
  */
+./require_once('./class/Xenmobile_RESTWS_Authentication.php');
 $szFQDN = 'xenmobile.contoso.com';
 
 $oCliXM_WS = new Xenmobile_RESTWS_Main( $szFQDN, 4443, 'https',false );
 
 if ( $oCliXM_WS->login('username', 'password' ) == false )
 {
-  echo PHP_EOL.$oCliXM_WS->_getLastRequestResult()->message.'json code:'.$oCliXM_WS->_getLastRequestResult()->status.', ' .$oCliXM_WS->getLastHttpReturnCode().PHP_EOL;
+  echo PHP_EOL.$oCliXM_WS->_getLastRequestResult()->message.'json code:'.
+        $oCliXM_WS->_getLastRequestResult()->status.', ' .
+        $oCliXM_WS->getLastHttpReturnCode().
+        PHP_EOL;
   exit (1);
 }
 

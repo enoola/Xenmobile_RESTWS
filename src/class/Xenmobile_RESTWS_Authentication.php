@@ -28,7 +28,7 @@ class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implemen
   function __destruct()
   {
     $this->log('in', __METHOD__);
-    var_dump($this->getAuthToken());
+
     if ($this->getAuthToken() != null)
       $this->logout();
     parent::__destruct();
