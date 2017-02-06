@@ -17,34 +17,20 @@ PhP >= 5.6
 
 #Implemented class/method
 
-<<<<<<< HEAD
-> .Xenmobile_RESTWS_Abstract
-> |..Xenmobile_RESTWS_Authentication /authentication
->   ..-login : /login
->   ..-cwclogin : /cwclogin
->   ..-logout : /logout
->   |..Xenmobile_RESTWS_Device /device
->     ..-GetDeviceByFilters /filter
->     ..-GetDeviceByFilters_EasySearch
->     ..-GetAvailableFilterIds
->     ..-DisplayAvailableFilterIds
->     ..-GetDeviceInformationByID /filter/{id}
+- Xenmobile_RESTWS_Abstract
+  - Xenmobile_RESTWS_Authentication /authentication
+    - login : /login
+    - cwclogin : /cwclogin
+    - logout : /logout
+  - Xenmobile_RESTWS_Device /device
+    - GetDeviceByFilters /filter
+    - GetDeviceByFilters_EasySearch
+    - GetAvailableFilterIds
+    - DisplayAvailableFilterIds
+    - GetDeviceInformationByID /filter/{id}
 
-=======
->.Xenmobile_RESTWS_Abstract
->|..Xenmobile_RESTWS_Authentication /authentication
->  ..-login : /login
->  ..-cwclogin : /cwclogin
->  ..-logout : /logout
->  |..Xenmobile_RESTWS_Device /device
->    ..-GetDeviceByFilters /filter
->    ..-GetDeviceByFilters_EasySearch
->    ..-GetAvailableFilterIds
->    ..-DisplayAvailableFilterIds
->    ..-GetDeviceInformationByID /filter/{id}
-    
->>>>>>> workingzone
-   NO Modification method added yet only geter
+   NO Modification method added yet only gets
+
 ##Usage Example
 ```php
 /*
