@@ -28,7 +28,10 @@ PhP >= 5.6
     - GetAvailableFilterIds
     - DisplayAvailableFilterIds
     - GetDeviceInformationByID /filter/{id}
-
+  - Xenmobile_RESTWS_ServerProperties : /serverproperties
+    - GetAll()
+    - GetByFilter()
+    
    NO Modification method added yet only gets
 
 ##Usage Example
