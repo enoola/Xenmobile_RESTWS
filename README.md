@@ -29,9 +29,6 @@ PhP >= 5.6
     - GetAvailableFilterIds
     - DisplayAvailableFilterIds
     - GetDeviceInformationByID /filter/{id}
-  - Xenmobile_RESTWS_ServerProperties : /serverproperties
-    - GetAll()
-    - GetByFilter(ar_filter)
     - AuthorizeAListOfDevices(ar_ids)
     - ApplyActivationLockBypassOnAListOfDevices(ar_ids)
     - ApplyAppLockOnAListOfDevices(ar_ids)
@@ -78,6 +75,11 @@ PhP >= 5.6
 
    NO Obvious Method to add devices.
    Need to dig that. Was doable with SOAP
+   
+  - Xenmobile_RESTWS_ServerProperties : /serverproperties
+    - GetAll()
+    - GetByFilter(ar_filter)
+
 
 ##Usage Example
 ```php
