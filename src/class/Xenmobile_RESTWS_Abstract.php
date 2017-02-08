@@ -130,13 +130,13 @@ abstract class Xenmobile_RESTWS_Abstract
     // create a new cURL resource
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $szURL);
-    if ( strcmp($httpMethod, 'get') == 0 ) //HTTP GET expected
+    if ( strcasecmp($httpMethod, 'get') == 0 ) //HTTP GET expected
     {
       if (isset($arParams) && !is_null($arParams) && is_array($arParams) && (count($arParams) > 0))
         $szURL .= '?' . http_build_query($arParams);
       $this->log($szURL, 'Requested Url (GET)');
     }
-    elseif ( strcmp($httpMethod, 'post') == 0 ) //HTTP POST expected
+    elseif ( strcasecmp($httpMethod, 'post') == 0 ) //HTTP POST expected
     {
       $this->log($szURL, __METHOD__ . ' Requested Url (POST)');
 
@@ -192,7 +192,7 @@ abstract class Xenmobile_RESTWS_Abstract
     $result = curl_exec($ch);
     $info = curl_getinfo($ch);
 
-    if ($info['http_code'] == 0) //an error (bad fqdn for example..
+    if ($info['http_code'] != 200) //an error (bad fqdn for example..
       $this->_szLastRequestCurlError = curl_error ( $ch );
 
     curl_close($ch);
@@ -206,7 +206,7 @@ abstract class Xenmobile_RESTWS_Abstract
 
     self::_setLastRequestResult( $result );
     self::_setLastHttpReturn( $info );
-
+    
     switch ($info['http_code'])
     {
       case 0:
