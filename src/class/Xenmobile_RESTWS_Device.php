@@ -4,10 +4,15 @@ namespace enoola_Citrix_Client;
 require_once('./class/Xenmobile_RESTWS_Exception.php');
 require_once('./class/Xenmobile_RESTWS_Authentication.php');
 
+error_reporting(E_ALL);
+
+
+
 class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
 {
   const SZ_WS_CLASSNAME = 'device';
   private $_arImplementedMethod = array();
+  protected $_arMethodMatrix = array();
 
   public function __construct($szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
   {
@@ -15,6 +20,54 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     $this->log(self::SZ_WS_CLASSNAME, __METHOD__);
     parent::__construct( $szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false);
     parent::_setClassname( self::SZ_WS_CLASSNAME );
+
+    $this->_addVirtualMethod('AuthorizeAListOfDevices','authorize');
+    $this->_addVirtualMethod('ApplyActivationLockBypassOnAListOfDevices','activationLockBypass');
+    $this->_addVirtualMethod('ApplyAppLockOnAListOfDevices','appLock');
+    $this->_addVirtualMethod('ApplyAppWipeOnAListOfDevices','appWipe');
+    $this->_addVirtualMethod('ApplyContainerLockOnAListOfDevices','containerLock');
+    $this->_addVirtualMethod('CancelContainerLockOnAListOfDevices','containerLock','cancel');
+    $this->_addVirtualMethod('ApplyContainerUnlockOnAListOfDevices','containerUnlock');
+    $this->_addVirtualMethod('CancelContainerUnlockOnAListOfDevices','containerUnlock','cancel');
+    $this->_addVirtualMethod('ResetContainerPasswordOnAListOfDevices','containerPwdReset');
+    $this->_addVirtualMethod('CancelResetContainerPasswordOnAListOfDevices','containerPwdReset', 'cancel');
+    $this->_addVirtualMethod('DisownAListOfDevices','disown', 'cancel');
+    $this->_addVirtualMethod('LocateAListOfDevices','locate');
+    $this->_addVirtualMethod('CancelLocateAListOfDevices','locate','cancel');
+    $this->_addVirtualMethod('ApplyGPSTrackingOnAListOfDevices','track');
+    $this->_addVirtualMethod('CancelGPSTrackingOnAListOfDevices','track','cancel');
+    /*
+    * Lock a List of Devices
+    *
+    * @param array arSequentialID
+    * @return mixed
+    * @notes : from citrix doc we need those in the query
+          dstName – destination name, as either destination name or destination device ID
+          dstDevId – MAC address for destination device, as either destination name or destination device ID
+          scanTime – number of seconds to scan
+          screenSharingPwd – password for screen sharing
+    * need to be tested
+    */
+    $this->_addVirtualMethod('LockAListOfDevices','lock');
+    $this->_addVirtualMethod('CancelLockAListOfDevices','lock','cancel');
+    $this->_addVirtualMethod('LockAListOfDevices','unlock');
+    $this->_addVirtualMethod('DeployAListOfDevices','refresh');
+    $this->_addVirtualMethod('RequestForAirPlayMirroringOnAListOfDevices','requestMirroring');
+    $this->_addVirtualMethod('CancelRequestForAirPlayMirroringOnAListOfDevices','requestMirroring','cancel');
+    $this->_addVirtualMethod('StopAirPlayMirroringOnAListOfDevices','stopMirroring');
+    $this->_addVirtualMethod('CancelStopAirPlayMirroringOnAListOfDevices','stopMirroring','cancel');
+    $this->_addVirtualMethod('ClearAllRestrictionsOnAListOfDevices','restrictions','clear');
+    $this->_addVirtualMethod('CancelClearAllRestrictionsOnAListOfDevices','restrictions','clear/cancel');
+    $this->_addVirtualMethod('RevokeAListOfDevices','revoke');
+    $this->_addVirtualMethod('RingAListOfDevices','ring');
+    $this->_addVirtualMethod('CancelRingAListOfDevices','ring','cancel');
+    $this->_addVirtualMethod('WipeAListOfDevices','wipe');
+    $this->_addVirtualMethod('CancelWipeAListOfDevices','wipe','cancel');
+    $this->_addVirtualMethod('SelectivelyWipeAListOfDevices','selwipe');
+    $this->_addVirtualMethod('CancelSelectivelyWipeAListOfDevices','selwipe','cancel');
+    $this->_addVirtualMethod('WipeTheSDCardsOnAListOfDevices','sdcardwipe');
+    $this->_addVirtualMethod('CancelWipeTheSDCardsOnAListOfDevices','sdcardwipe','cancel');
+
   }
 
   public function __destruct()
@@ -29,58 +82,13 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
    */
 
   /*
-  "start": "0-999",
-   "limit": "0-999",
-   "sortOrder": "ASC",
-   "sortColumn": "ID",
-   "search": "Any search term",
-   "enableCount": "false",
-   "constraints":
-  "{'constraintList':[{'constraint':'DEVICE_OS_FAMILY','parameters':[{'name':'osFamily','type':'STRING','value':'iO
-  S'}]}]}",
-   "filterIds": "['group#/group/MSP@_fn_@normal']"
-
-  */
-
-  /*
-  //public function GetDeviceByFilters( $filterIds, $szLimit, $szStart = '0-999', $szSortOrder = 'ASC', $szSortColumn = 'ID',
-  //    $szSearch = 'Any search term',$szEnableCount = 'false', $arConstraintList = null,  )
-  public function GetDeviceByFiltersArgs( $filterIds, $szSearch = 'Any search term', $szSortOrder = 'ASC', $szSortColumn = 'ID',
-     $szStart = '0', $szLimit = '999', $bEnableCount = false, $arConstraintList = null  )
-  {
-    $arQuery = array();
-    if ( !is_null( $szStart ) )
-      $arQuery['start'] = $szStart;
-    if ( !is_null( $szLimit ) )
-      $arQuery['limit'] = $szLimit;
-    if ( !is_null( $szSortOrder ) )
-      $arQuery['sortOrder'] = $szSortOrder;
-    if ( !is_null( $szSortColumn ) )
-      $arQuery['sortColumn'] = $szSortColumn;
-    if ( $bEnableCount !== null )
-    {
-      $arQuery['enableCount'] = 'false';
-      if ($bEnableCount['enableCount'] === true)
-            $arQuery['enableCount'] = 'true';
-    }
-    if ( !is_null($arConstraintList) )
-      $arQuery['constraints'] = array('constraintList'=> $arConstraintList );
-
-    $arQuery['search'] = $szSearch;
-
-    if ($filterIds != null)
-      $arQuery['filterIds'] = $filterIds;
-
-    self::GetDeviceByFiltersAr( $arQuery );
-  } */
-
-  /*
    * GetDeviceByFilters,
    *
    * @param array() arQuery ['start'=>0-999, 'limit'=>0-999, "sortOrder":"ASC,DESC,DSC","sortColumn":"ID,SERIAL,IMEI...","enableCount":"false]
+   *
    * @return objStdClass() arQuery : {(int)status,(string)message,(objStdClass)currentFilter->(array)detail}
    *
-   * cf : https://docs.citrix.com/en-us/xenmobile/10-3/xenmobile-rest-api-reference-main.html
+   * @note : https://docs.citrix.com/en-us/xenmobile/10-3/xenmobile-rest-api-reference-main.html
    */
   public function GetDeviceByFilters( $arQuery )
   {
@@ -507,521 +515,170 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   }
 
   /*
-  * Authorize a list of devices
-  *
-  * Extra function
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function AuthorizeAListOfDevices( $arSequentialID )
+   *
+   * not reliable
+   */
+  private function GetAllKnownPropertiesOnADevice( $nID )
   {
     $this->log(__METHOD__);
 
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('authorize', null, $arSequentialID, 'POST');
+    $this->_doRequest('knownProperties', null, $arSequentialID, 'GET');
 
-    return ( $this->_handleResponse());
+    return ( $this->_handleResponse() );
   }
-
-  /*
-  * Apply Activation Lock Bypass on a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function ApplyActivationLockBypassOnAListOfDevices( $arSequentialID )
+  private function GetAllUsedPropertiesOnADevice( $nID )
   {
     $this->log(__METHOD__);
 
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('activationLockBypass', null, $arSequentialID, 'POST');
+    $this->_doRequest('usedProperties', null, $arSequentialID, 'GET');
 
-    return ( $this->_handleResponse());
+    return ( $this->_handleResponse() );
   }
 
-  /*
-  * Apply App Lock on a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function ApplyAppLockOnAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('appLock', null, $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Apply App Wipe on a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function ApplyAppWipeOnAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('appWipe', null, $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Apply Container Lock on a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function ApplyContainerLockOnAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('containerLock', null, $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Cancel Container Lock on a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function CancelContainerLockOnAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('containerLock', 'cancel', $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Apply Container Unlock on a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  * @note documentation states a newPinCode is required but I am not SendNotificationToAListOfDevicesOrUsers_Agent
-  * @todo : need to be tested
-  */
-  public function ApplyContainerUnlockOnAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('containerUnlock', null, $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Cancel Container Unlock on a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function CancelContainerUnlockOnAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('containerUnlock', 'cancel', $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
 
 
   /*
-  * Reset Container Password on a List of Devices
+  * Get All Device Properties by Device ID
   *
-  * @param array arSequentialID
-  * @return mixed
-  * @note documentation states a newPinCode is required but I am not SendNotificationToAListOfDevicesOrUsers_Agent
-  * @todo : need to be tested furthermore
+  * @param string szFrom : From content
+  *
+  * @return mixed see self::_handleResponse
   */
-  public function ResetContainerPasswordOnAListOfDevices( $arSequentialID )
+  public function GetAllDevicePropertiesByDeviceID($nDeviceID)
   {
     $this->log(__METHOD__);
 
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('containerPwdReset', null, $arSequentialID, 'POST');
+    $this->_doRequest('usedProperties', $nDeviceID, $arSequentialID, 'GET');
 
-    return ( $this->_handleResponse());
+    return ( $this->_handleResponse() );
   }
 
   /*
-  * Cancel Reset Container Password on a List of Devices
+  * Update All Device Properties by Device ID
   *
-  * @param array arSequentialID
-  * @return mixed
-  * @note documentation states a newPinCode is required but I am not SendNotificationToAListOfDevicesOrUsers_Agent
-  * @todo : need to be tested furthermore
+  * @notes unable to make it work with XM 10.3x return 500 json
+  * @param int nDeviceID
+  * @param array arAllProperties key(name, value)
+  *
+  * @return mixed see self::_handleResponse
   */
-  public function CancelResetContainerPasswordOnAListOfDevices( $arSequentialID )
+  public function UpdateAllDevicePropertiesByDeviceID($nDeviceID, $arAllProperties)
   {
     $this->log(__METHOD__);
 
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('containerPwdReset', 'cancel', $arSequentialID, 'POST');
+    $this->_doRequest('properties', $nDeviceID, array('properties'=>$arAllProperties), 'PUT');
 
-    return ( $this->_handleResponse());
+    return ( $this->_handleResponse() );
   }
 
   /*
-  * Disown a List of Devices
+  * Add or Update a Device Property by Device ID
   *
-  * @param array arSequentialID
-  * @return mixed
-  * @note documentation states a newPinCode is required but I am not SendNotificationToAListOfDevicesOrUsers_Agent
-  * @todo : need to be tested furthermore
+  * @notes unable to make it work with XM 10.3x return 500 jsoncode : 1000
+  * @param int nDeviceID
+  * @param array arProperties name, value
+  *
+  * @return mixed see self::_handleResponse
   */
-  public function DisownAListOfDevices( $arSequentialID )
+  public function AddOrUpdateADevicePropertyByDeviceID($nDeviceID, $arOneProperty)
   {
     $this->log(__METHOD__);
 
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('disown', null, $arSequentialID, 'POST');
+    $this->_doRequest('properties', $nDeviceID, $arOneProperty, 'POST');
 
-    return ( $this->_handleResponse());
+    return ( $this->_handleResponse() );
   }
 
-  /*
-  * Locate a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  * @note documentation states a newPinCode is required but I am not SendNotificationToAListOfDevicesOrUsers_Agent
-  * @todo : need to be tested furthermore
-  */
-  public function LocateAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('locate', null, $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Cancel Locate a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function CancelLocateAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('locate', 'cancel', $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Apply GPS Tracking on a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function ApplyGPSTrackingOnAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('track', null, $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Cancel GPS Tracking on a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function CancelGPSTrackingOnAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('track', 'cancel', $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Lock a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function LockAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('lock', null, $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Cancel Lock a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function CancelLockAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('lock', 'cancel', $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Unlock a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function UnlockAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('unlock', null, $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Cancel Unlock a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function CancelUnlockAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('unlock', 'cancel', $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Deploy a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function DeployAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('refresh', null, $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
 
 
   /*
-  * Request for AirPlay Mirroring on a List of Devices
+  * Delete a Device Property by Device ID
   *
-  * @param array arSequentialID
-  * @return mixed
-  * @notes : from citrix doc we need those in the query
-        dstName – destination name, as either destination name or destination device ID
-        dstDevId – MAC address for destination device, as either destination name or destination device ID
-        scanTime – number of seconds to scan
-        screenSharingPwd – password for screen sharing
-  * need to be tested
+  * @notes unable to make it work with XM 10.3x return 500 jsoncode : 1000
+  *        even id, name, value.. (doesn't behave as expected)
+  * @param int nDeviceID
+  * @param array arProperties name, value
+  *
+  * @return mixed see self::_handleResponse
   */
-  public function RequestForAirPlayMirroringOnAListOfDevices( $arSequentialID )
+  public function DeleteADevicePropertyByDeviceID($nDeviceID, $arOneProperty)
   {
     $this->log(__METHOD__);
 
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('requestMirroring', null, $arSequentialID, 'POST');
+    $this->_doRequest('properties', $nDeviceID, $arOneProperty, 'DELETE');
 
-    return ( $this->_handleResponse());
+    return ( $this->_handleResponse() );
   }
 
   /*
-  * Cancel Request for AirPlay Mirroring on a List of Devices
+  * Get iOS Device MDM Status by Device ID
   *
-  * @param array arSequentialID
-  * @return mixed
-  * @todo : need to be tested
+  * @notes unable to make it work with XM 10.3x return 500 jsoncode : 1000
+  *        even id, name, value.. (doesn't behave as expected)
+  * @param int nDeviceID
+  * @param array arProperties name, value
+  *
+  * @return mixed see self::_handleResponse
   */
-  public function CancelRequestForAirPlayMirroringOnAListOfDevices( $arSequentialID )
+  public function GetiOSDeviceMDMStatusbyDeviceID($nDeviceID)
   {
     $this->log(__METHOD__);
 
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('requestMirroring', 'cancel', $arSequentialID, 'POST');
+    $this->_doRequest('mdmStatus', $nDeviceID, null, 'GET');
 
-    return ( $this->_handleResponse());
+    return ( $this->_handleResponse() );
   }
 
   /*
-  * Stop AirPlay Mirroring on a List of Devices
+  * Generate Pin Code
   *
-  * @param array arSequentialID
-  * @return mixed
+  * @notes Query Parameters: pinCodeLength – the length of the requested pin code
+  *        unable to make it work with XM 10.3x return 500 jsoncode : 1000
+  * @param int nDeviceID
+  * @param array arProperties name, value
+  *
+  * @return mixed see self::_handleResponse
   */
-  public function StopAirPlayMirroringOnAListOfDevices( $arSequentialID )
+  public function GeneratePinCode( $nLength)
   {
     $this->log(__METHOD__);
 
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('stopMirroring', null, $arSequentialID, 'POST');
+    $this->_doRequest('pinCode', 'generate', array( 'pinCodeLength' => $nLength ), 'GET');
 
-    return ( $this->_handleResponse());
+    return ( $this->_handleResponse() );
   }
 
   /*
-  * Cancel Stop AirPlay Mirroring on a List of Devices
+  * XM 10.4
+  * Get Device Last Location By Devic eID
   *
-  * @param array arSequentialID
-  * @return mixed
+  * @notes Query Parameters: pinCodeLength – the length of the requested pin code
+  *        unable to make it work with XM 10.3x return 500 jsoncode : 1000
+  * @param int nDeviceID
+  * @param array arProperties name, value
+  *
+  * @return mixed see self::_handleResponse
   */
-  public function CancelStopAirPlayMirroringOnAListOfDevices( $arSequentialID )
+  public function GetDeviceLastLocationByDeviceID( $nDeviceID )
   {
     $this->log(__METHOD__);
 
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('stopMirroring', 'cancel', $arSequentialID, 'POST');
+    $this->_doRequest('lastLocation', $nDeviceID, null, 'GET');
 
-    return ( $this->_handleResponse());
+    return ( $this->_handleResponse() );
   }
 
-  /*
-  * Clear All Restrictions on a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function ClearAllRestrictionsOnAListOfDevices( $arSequentialID )
+
+
+
+  protected function _addVirtualMethod($szVirtualName, $szMethod, $szPath = null)
   {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('restrictions', 'clear', $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
+    //$this->_arMethodMatrix = array($szVirtualName);
+    $oEntry = new \StdClass;
+    $oEntry->szMethod = $szMethod;
+    $oEntry->szPath = $szPath;
+    $this->_arMethodMatrix[ $szVirtualName ] = $oEntry;
   }
-
-  /*
-  * Cancel Clear All Restrictions on a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function CancelClearAllRestrictionsOnAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('restrictions', 'clear/cancel', $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Revoke a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function RevokeAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('revoke', null, $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Ring a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function RingAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('ring', null, $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Cancel Ring a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function CancelRingAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('ring', 'cancel', $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Wipe a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function WipeAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('wipe', null, $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-  /*
-  * Cancel Wipe a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function CancelWipeAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('wipe', 'cancel', $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
 
 
   /*
@@ -1034,7 +691,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   {
     if (!is_array( $arSequentialID ) )
     {
-      throw Xenmobile_RESTWS_Exception('Invalid argument expected array.');
+      throw new Xenmobile_RESTWS_Exception('Invalid argument expected array.');
     }
   }
 
@@ -1045,7 +702,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     * @return mixed : return _oRequestLastReturn
     *                         Xenmobile_RESTWS_Exception if an error occurs
     */
-   private function _handleResponse( )
+   public function _handleResponse( )
    {
      if ($this->getLastHttpReturn()['http_code'] == 403)
      {
@@ -1070,60 +727,57 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
      throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult()->message, $this->getLastRequestResult()->status );
    }
 
+   /*
+    * implemented 'virtual methods here :)'
+    *
+    * @name
+   */
+   public function __call($szName, $arAguments)
+   {
+     if ( array_key_exists($szName, $this->_arMethodMatrix) != true)
+     {
+       throw new Xenmobile_RESTWS_Exception( 'oups method '.$szName."doesn't exist." );
+     }
+
+     return ( $this->_myCallback_DoByAListOfDevices($this->_arMethodMatrix[$szName]->szMethod,
+                         $this->_arMethodMatrix[$szName]->szPath,
+                         $arAguments[0]));
+   }
+
+   /*
+   * generic callback for all method only requiring an array of IDS as parameters
+   *
+   * @param string szMethod webservice methodtocall
+   * @param string szPath webservice urlpath completion
+   * @param array arSequentialID an array containing devices' ids
+   *
+   * @return mixed see self::_handleResponse
+   */
+   private function _myCallback_DoByAListOfDevices($szMethod, $szPath,$arSequentialID )
+   {
+       $this->log('required : '.$szMethod, __METHOD__);
+
+       $this->_throwExceptionIfNotArray( $arSequentialID );
+       $this->_doRequest($szMethod, $szPath, $arSequentialID, 'POST');
+
+       return ( $this->_handleResponse());
+   }
 
 
+ }
 
 /*Others*
 
-[x] Send Notification to a List of Devices or Users
-[x] Authorize a List of Devices
-[x] Apply Activation Lock Bypass on a List of Devices
-[x] Apply App Lock on a List of Devices
-[x] Apply App Wipe on a List of Devices
-[x] Apply Container Lock on a List of Devices
-[x] Cancel Container Lock on a List of Devices
-[x] Apply Container Unlock on a List of Devices
-[x] Cancel Container Unlock on a List of Devices
-[x] Reset Container Password on a List of Devices
-[x] Cancel Reset Container Password on a List of Devices
-[x] Disown a List of Devices
-[x] Locate a List of Devices
-[x] Cancel Locate a List of Devices
-[x] Apply GPS Tracking on a List of Devices
-[x] Cancel GPS Tracking on a List of Devices
-[x] Lock a List of Devices
-[x] Cancel Lock of a List of Devices
-[x] Unlock a List of Devices
-[x] Cancel Unlock of a List of Devices
-[x] Deploy a List of Devices
-[x] Request AirPlay Mirroring on a List of Devices
-[x] Cancel Request for AirPlay Mirroring on a List of Devices
-[x] Stop AirPlay Mirroring on a List of Devices
-[x] Cancel Stop AirPlay Mirroring on a List of Devcies
-[x] Clear All Restrictions on a List of Devices
-[x] Cancel Clear All Restrictions on a List of Devices
-[x] Revoke a List of Devices
-[x] Ring a List of Devices
-[x] Cancel Ringing a List of Devices
-[x] Wipe a List of Devices
-[x] Cancel Wipe of a List of Devices
-[ ] Selectively Wipe a List of Devices
-[ ] Cancel Selectively Wiping a List of Devices
-[ ] Wipe the SD Cards on a List of Devices
-[ ] Cancel Wiping SD Cards on a List of Devices
-[ ] Get All Known Properties on a Device
-[ ] Get All Used Properties on a Device
-[ ] Get All Device Properties by Device ID
-[ ] Update All Device Properties by Device ID
-[ ] Add or Update a Device Property by Device ID
-[ ] Delete a Device Property by Device ID
-[ ] Get iOS Device MDM Status by Device ID
-[ ] Generate PIN code
 */
 
-}
+/*
+$methodOne = function ($szMethod, $szPath, $arnID)
+{
+    echo "I am  doing one.".PHP_EOL;
+    echo $szMethod.PHP_EOL;
+    echo $szPath.PHP_EOL;
+};
 
-
-
+*/
 
 ?>
