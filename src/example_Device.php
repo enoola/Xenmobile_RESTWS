@@ -78,7 +78,29 @@ $arQueryNotification = array ( 'smtpFrom' => 'Xenmobile',
 //print_r( $oCliXM_WS->ApplyContainerUnlockOnAListOfDevices( array(1,2) ));
 
 
-print_r( $oCliXM_WS->ResetContainerPasswordOnAListOfDevices( array(1,2) ));
+//print_r( $oCliXM_WS->ResetContainerPasswordOnAListOfDevices( array(1,2) ));
+
+//Xenmobile_RESTWS_Device::_myCallback_DoByAListOfDevices($oCliXM_WS,'arg1','arg2','arg3');
+//_myCallback_DoByAListOfDevices
+
+//$oCliXM_WS->lol(211);
+
+//print_r( $oCliXM_WS->CancelWipeAListOfDevices(array(1)) );
+//print_r( json_encode( array('name'=>'testprop','value'=>'value_of_newprop') ) );
+
+//print_r($oCliXM_WS->AddOrUpdateADevicePropertyByDeviceID(1, array('name'=>'newprop','value'=>'value_of_newprop') ) );
+
+//print_r($oCliXM_WS->DeleteADevicePropertyByDeviceID(1, array('name'=>'testprop', 'value'=>'valuetestprop') ) );
+
+//print_r( json_encode( array('properties'=>array('name'=>'test','value'=>'test') )));
+//print_r($oCliXM_WS->UpdateAllDevicePropertiesByDeviceID(1,array(array('name'=>'test','value'=>'test')  )));
+
+
+
+print_r( $oCliXM_WS->GetDeviceLastLocationByDeviceID(1) );
+
+//print_r($oCliXM_WS->GeneratePinCode( array('parameters'=>array('pinCodeLength'=>8 ) ) ) );
+
 
 //var_dump( $oCliXM_WS->getLastRequestCurlError());
 
