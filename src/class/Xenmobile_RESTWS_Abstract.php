@@ -136,11 +136,13 @@ abstract class Xenmobile_RESTWS_Abstract
         $szURL .= '?' . http_build_query($arParams);
       $this->log($szURL, 'Requested Url (GET)');
     }
-    elseif ( strcasecmp($httpMethod, 'post') == 0 ) //HTTP POST expected
+    elseif ( ( strcasecmp($httpMethod, 'post') == 0 )
+              || ( strcasecmp($httpMethod, 'PUT') == 0 )
+              || ( strcasecmp($httpMethod, 'DELETE') == 0 ) ) //HTTP POST expected
     {
       $this->log($szURL, __METHOD__ . ' Requested Url (POST)');
 
-      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($httpMethod));
       if (isset($arParams) && !is_null($arParams) && is_array($arParams))
       {
         $jsonParams = json_encode($arParams);
@@ -159,6 +161,33 @@ abstract class Xenmobile_RESTWS_Abstract
 
         curl_setopt($ch, CURLOPT_POSTFIELDS,  $jsonParams );
       }
+    }
+    elseif ( strcasecmp($httpMethod, 'PUT') == 0 ) //HTTP POST expected
+    {
+      $this->log($szURL, __METHOD__ . ' Requested Url (POST)');
+
+      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+      if (isset($arParams) && !is_null($arParams) && is_array($arParams))
+      {
+        $jsonParams = json_encode($arParams);
+
+        /*
+         * Little ugly patch
+         *
+         * Indeed sequential array parsed with : json_encode wddx_serialize_value
+         * filterIds = array ('device.platform#5.1.1@_fn_@device.platform.android.version')
+         * jsonencode ($filterIds) = "filterIds": "["device.platform#5.1.1@_fn_@device.platform.android.version"]"
+         * XenMobile Expects : "filterIds": "['device.platform#5.1.1@_fn_@device.platform.android.version']"
+         *
+         */
+        $jsonParamsPatched = str_replace('["',"\"['", $jsonParams);
+        $jsonParams = str_replace('"]',"']\"", $jsonParamsPatched);
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS,  $jsonParams );
+      }
+    }
+    else {
+      throw new Xenmobile_RESTWS_Exception('httpMethod : '.$httpMethod.' NOT IMPLEMENTED');
     }
 
     if ($arNewHeaders == null)
@@ -206,7 +235,7 @@ abstract class Xenmobile_RESTWS_Abstract
 
     self::_setLastRequestResult( $result );
     self::_setLastHttpReturn( $info );
-    
+
     switch ($info['http_code'])
     {
       case 0:
