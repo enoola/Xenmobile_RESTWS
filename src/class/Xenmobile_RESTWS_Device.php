@@ -1024,38 +1024,8 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   /*
-  * Cancel GPS Tracking on a List of Devices
-  *
-  * @param array arSequentialID
-  * @return mixed
-  */
-  public function CancelGPSTrackingOnAListOfDevices( $arSequentialID )
-  {
-    $this->log(__METHOD__);
-
-    $this->_throwExceptionIfNotArray( $arSequentialID );
-    $this->_doRequest('track', null, $arSequentialID, 'POST');
-
-    return ( $this->_handleResponse());
-  }
-
-
-  /*
-  * Thow an exception if parameter is not an array
+  * Throw an exception if parameter is not an array
   *
   * @param array arSequentialID
   * @return mixed
