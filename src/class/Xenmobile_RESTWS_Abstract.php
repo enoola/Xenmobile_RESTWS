@@ -375,9 +375,9 @@ abstract class Xenmobile_RESTWS_Abstract
   * @return mixed : return _oRequestLastReturn
   *                         Xenmobile_RESTWS_Exception if an error occurs
   */
- public function _handleResponse( )
+ protected function _handleResponse( )
  {
-   if ($this->_setLastHttpReturn['http_code'] == 403)
+   if ($this->_arLastHttpReturn['http_code'] == 403)
    {
      throw new Xenmobile_RESTWS_Exception( $this->_oRequestLastReturn );
    }

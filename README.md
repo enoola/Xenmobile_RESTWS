@@ -86,7 +86,17 @@ PhP >= 5.6
       - DeleteServerProperties(ar_names)
       - ResetServerProperties(ar_names)
 
->>>>>>> workingzone
+    - Xenmobile_RESTWS_LocalUsersGroups : /localusersgroups
+      - GetAllLocalUsers
+      - GetOneLocalUser
+      - AddOneLocalUser
+      - AddOneLocalUser_Easy
+      - UpdateOneLocalUser
+      - UpdateOneLocalUser_Easy
+      - ChangeUserPassword
+      - DeleteOneUser
+      - ImportProvisioningFile
+
 
 ##Usage Example
 ```php

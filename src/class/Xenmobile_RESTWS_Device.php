@@ -1,4 +1,4 @@
-<?Php
+<?php
 namespace enoola_Citrix_Client;
 
 require_once('./class/Xenmobile_RESTWS_Exception.php');
