@@ -368,6 +368,34 @@ abstract class Xenmobile_RESTWS_Abstract
       }
   }
 
+
+  /*
+  * handle response of Xenmobile
+  *
+  * @return mixed : return _oRequestLastReturn
+  *                         Xenmobile_RESTWS_Exception if an error occurs
+  */
+ public function _handleResponse( )
+ {
+   if ($this->_setLastHttpReturn['http_code'] == 403)
+   {
+     throw new Xenmobile_RESTWS_Exception( $this->_oRequestLastReturn );
+   }
+   else
+   {
+     if ( $this->_oRequestLastReturn && is_object( $this->_oRequestLastReturn ) )
+       {
+         if ( isset( $this->_oRequestLastReturn->status ) )
+           {
+             return ( $this->_oRequestLastReturn );
+           }
+       }
+   }
+
+   throw new Xenmobile_RESTWS_Exception( $this->_oRequestLastReturn->message, $this->_oRequestLastReturn->status );
+ }
+
+
   /*
   * we shall be able to autogenerate some code, but since editor dev are lazy we can't.
   * <https://abhirockzz.wordpress.com/2015/07/10/jax-rs-and-http-options/>,

@@ -12,7 +12,10 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
 {
   const SZ_WS_CLASSNAME = 'device';
   private $_arImplementedMethod = array();
-  protected $_arMethodMatrix = array();
+  protected $_arMethodMatrix = array(
+    array('AuthorizeAListOfDevices','authorize')
+);
+
 
   public function __construct($szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
   {
