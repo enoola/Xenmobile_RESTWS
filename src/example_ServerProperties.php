@@ -33,14 +33,12 @@ if ( $oCliXM_WS->login($arConfig['username'], $arConfig['password'] ) == false )
 }
 echo 'result :' .PHP_EOL;
 
-print_r( $oCliXM_WS->GetAll() );
+//print_r( $oCliXM_WS->GetAllServerProperties() );
 
+//print_r($oCliXM_WS->AddServerProperty_Easy('myserverprop','myvalueof','My Server Prop','My description'));
 
+print_r( $oCliXM_WS->ResetServerProperties(array('myserverprop')) );
 
-
-//$arQuery = array('start'=>0, 'limit'=>9, "sortOrder"=>"ASC","sortColumn"=>"ID","enableCount"=>"false");
-//$arDevices = $oCliXM_WS->GetDeviceByFilters($arQuery);
-//print_r($arDevices);
 
 echo 'will logout' . PHP_EOL;
 if ( $oCliXM_WS->logout() == true)
