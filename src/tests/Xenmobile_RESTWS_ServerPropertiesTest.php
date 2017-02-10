@@ -163,7 +163,6 @@ class Xenmobile_RESTWS_ServerPropertiesTest extends UnitTestCase
     "sortOrder"=> "desc",
     "searchStr"=> "MySeRvErPrOpErTy");
 
-    //$this->assertIdentical($this->_oCliXM_WS->GetServerPropertiesByFilter( $arQuerySearchNewProp )->allEwProperties[0]->name, $arNewProp['name']) ;
     $this->assertIdentical($this->_oCliXM_WS->GetServerPropertiesByFilter_Easy( $arQuerySearchNewProp['searchStr'],
                                                               $arQuerySearchNewProp['orderBy'],
                                                               $arQuerySearchNewProp['sortOrder'],
@@ -176,10 +175,8 @@ class Xenmobile_RESTWS_ServerPropertiesTest extends UnitTestCase
     $this->assertIdentical( $this->_oCliXM_WS->getLastRequestResult()->allEwProperties[0]->description, $arNewProp['description']);
 
 
-    //echo 'jsonencode:'.json_encode(array('property name')).PHP_EOL;
-
-        $this->_oCliXM_WS->DeleteServerProperties(array($arNewProp['name'],'testprop') );
-        $this->assertIdentical($this->_oCliXM_WS->getLastRequestResult()->status, 0);
+    $this->_oCliXM_WS->DeleteServerProperties(array($arNewProp['name'],'testprop') );
+    $this->assertIdentical($this->_oCliXM_WS->getLastRequestResult()->status, 0);
 
 
   }
