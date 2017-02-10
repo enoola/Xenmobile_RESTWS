@@ -7,7 +7,7 @@ require_once('./class/Xenmobile_RESTWS_Authentication.php');
 error_reporting(E_ALL);
 
 /**
- * Use as a parent object to login.
+ * Use as an object to leverage webservices inherant to Device in Xenmobile
  * can be use alone
  *
  * @method mixed AuthorizeAListOfDevices(array $arSequentialID)
