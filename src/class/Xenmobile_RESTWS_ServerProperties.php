@@ -59,6 +59,17 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
     throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult()->message, $this->getLastRequestResult()->status );
   }
 
+  /*
+  * Get server property by filter
+  *
+  * @param array arQuery
+      "start": 0,
+      "limit": 1000,
+      "orderBy": "name",
+      "sortOrder": "desc",
+      "searchStr": "justaserver1"
+  * @return mixed
+  */
 
   public function GetServerPropertiesByFilter( $arQuery )
   {
@@ -66,26 +77,33 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
 
     $retValue = $this->_doRequest('filter', null, $arQuery, 'post');
 
-    if ( $retValue == true )
-    {
-      if ( $this->getLastRequestResult() && is_object($this->getLastRequestResult()) )
-        {
-          if ( isset( $this->getLastRequestResult()->status ) )
-            {
-              return ( $this->getLastRequestResult() );
-            }
-        }
-    }
-    elseif ($this->getLastHttpReturn()['http_code'] == 403)
-    {
-      throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult() );
-    }
-    if ($this->getLastRequestResult()->status != 0)
-    {
-        $this->log( $this->getLastRequestResult(), __METHOD__ );
-    }
+    return ( parent::_handleResponse() );
+  }
 
-    throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult()->message, $this->getLastRequestResult()->status );
+  /*
+  * Get server property by filter
+  *
+  * @param array arQuery
+      "start": 0,
+      "limit": 1000,
+      "orderBy": "name",
+      "sortOrder": "desc",
+      "searchStr": "justaserver1"
+  * @return mixed
+  */
+
+  public function GetServerPropertiesByFilter_Easy( $szSearch, $szOrderBy = 'name', $szSortOrder = 'desc', $nStart = 0, $nLimit = 10 )
+  {
+    $this->log('in', __METHOD__);
+    $arQuery = array ( "start"=> $nStart,
+                      "limit"=> $nLimit,
+                      "orderBy"=> $szOrderBy,
+                      "sortOrder"=> $szSortOrder,
+                      "searchStr"=> $szSearch );
+
+    $retValue = $this->_doRequest('filter', null, $arQuery, 'post');
+
+    return ( parent::_handleResponse() );
   }
 
 
@@ -101,7 +119,7 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
   {
     $this->log(__METHOD__);
 
-    $retValue = $this->_doRequest(null, null, $arQuery, 'get');
+    $retValue = $this->_doRequest(null, null, $arQuery, 'POST');
 
     return (parent::_handleResponse());
   }
@@ -122,7 +140,8 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
 
     $arQuery = array('name'=>$szName,'value'=>$szValue, 'displayName'=>$szDisplayName,'description'=>$szDescription);
 
-    $retValue = $this->_doRequest(null, null, $arQuery, 'POST');
+    //$retValue = $this->_doRequest(null, null, $arQuery, 'POST');
+    $this->AddServerProperty( $arQuery );
 
     return (parent::_handleResponse());
   }
@@ -190,7 +209,7 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
   }
 
   /*
-   * Delete server property
+   * Delete server properties (return bad request format whatever I try)
    *
    * @param array arSequentialNamesOfPropertiesToReset ( array('name1,name2') )
    *
@@ -198,18 +217,26 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
    * @todo dig it error message "unrecognized field names"
    *
    */
-  public function DeleteServerProperties(  $arSequentialNamesOfPropertiesToReset )
+  public function DeleteServerProperties(  $arSequentialNamesOfPropertiesToDelete )
   {
     $this->log(__METHOD__);
 
-    if (!is_array($arSequentialNamesOfPropertiesToReset) )
-      throw new \InvalidArgumentException('invalid argument array expected '.gettype($arSequentialNamesOfPropertiesToReset).' given' );
+    $strQuery = '{ '.PHP_EOL.'"'.implode('" ,'.PHP_EOL.'"', $arSequentialNamesOfPropertiesToDelete).'"'.PHP_EOL.' }';
+  //  if (!is_array($arSequentialNamesOfPropertiesToReset) )
+  //    throw new \InvalidArgumentException('invalid argument array expected '.gettype($arSequentialNamesOfPropertiesToReset).' given' );
 
     //$arQuery = array( 'names' => $arSequentialNamesOfPropertiesToReset );
-    $retValue = $this->_doRequest(null, null, $arSequentialNamesOfPropertiesToReset, 'DELETE');
+    $retValue = $this->_doRequest(null, null, (string) $strQuery, 'DELETE');
 
+    echo '---->'.PHP_EOL;
+    print_r($this->_szLastJsonRequest);
+    echo PHP_EOL.'<------'.PHP_EOL;
     return (parent::_handleResponse());
   }
+
+
+
+
 
 }
 ?>

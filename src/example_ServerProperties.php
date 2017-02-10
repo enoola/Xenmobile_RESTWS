@@ -37,7 +37,7 @@ echo 'result :' .PHP_EOL;
 
 //print_r($oCliXM_WS->AddServerProperty_Easy('myserverprop','myvalueof','My Server Prop','My description'));
 
-print_r( $oCliXM_WS->ResetServerProperties(array('myserverprop')) );
+//print_r( $oCliXM_WS->ResetServerProperties(array('myserverprop')) );
 
 
 echo 'will logout' . PHP_EOL;

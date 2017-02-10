@@ -116,12 +116,12 @@ abstract class Xenmobile_RESTWS_Abstract
   protected function _doRequest($szMethod, $szPath, $arParams = array(), $httpMethod = 'get', $arNewHeaders = null )
   {
     $this->log(__METHOD__);
-    if (!is_array($arParams))
-    {
-        $arParams = array(
-              $arParams
-            );
-    }
+    //if (!is_array($arParams))
+    //{
+    //    $arParams = array(
+    //          $arParams
+    //        );
+    //}
 
     $szURL = $this->_getBaseUrl() . '/' . $szMethod;
     if (!empty($szPath) && !is_null($szPath) )
@@ -147,6 +147,7 @@ abstract class Xenmobile_RESTWS_Abstract
       {
         $jsonParams = json_encode($arParams);
 
+        //die ($jsonParams);
         /*
          * Little ugly patch
          *
@@ -161,28 +162,9 @@ abstract class Xenmobile_RESTWS_Abstract
 
         curl_setopt($ch, CURLOPT_POSTFIELDS,  $jsonParams );
       }
-    }
-    elseif ( strcasecmp($httpMethod, 'PUT') == 0 ) //HTTP POST expected
-    {
-      $this->log($szURL, __METHOD__ . ' Requested Url (POST)');
-
-      curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
-      if (isset($arParams) && !is_null($arParams) && is_array($arParams))
+      elseif (isset($arParams) && is_string($arParams))
       {
-        $jsonParams = json_encode($arParams);
-
-        /*
-         * Little ugly patch
-         *
-         * Indeed sequential array parsed with : json_encode wddx_serialize_value
-         * filterIds = array ('device.platform#5.1.1@_fn_@device.platform.android.version')
-         * jsonencode ($filterIds) = "filterIds": "["device.platform#5.1.1@_fn_@device.platform.android.version"]"
-         * XenMobile Expects : "filterIds": "['device.platform#5.1.1@_fn_@device.platform.android.version']"
-         *
-         */
-        $jsonParamsPatched = str_replace('["',"\"['", $jsonParams);
-        $jsonParams = str_replace('"]',"']\"", $jsonParamsPatched);
-
+        $jsonParams = $arParams;
         curl_setopt($ch, CURLOPT_POSTFIELDS,  $jsonParams );
       }
     }

@@ -14,7 +14,6 @@ class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implemen
   const SZ_WS_CLASSNAME = 'authentication';
 
   private $_szUsername = null;
-    //const CLASSNAME =
 
   function __construct( $szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
   {
@@ -163,6 +162,11 @@ class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implemen
   {
     $this->_szAuthToken = $szAuthToken ;
     return ;
+  }
+
+  public function getUsername()
+  {
+    return ( $this->_szUsername );
   }
 
   public function getAuthToken()
