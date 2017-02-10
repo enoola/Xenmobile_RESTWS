@@ -9,9 +9,10 @@ require_once('./class/IXenmobile_RESTWS_Authentication.php');
  * Use as a parent object to login.
  * can be use alone
  *
- * @method boolean login(string username, string password)
- * @method boolean cwclogin(string context, string customerId,  string ServiceKey)
- * @method boolean logout(integer $integer)
+ * @method boolean login(string $szUsername, string $szPassword)
+ * @method boolean cwclogin(string $szContext, string $szCustomerId,  string $szServiceKey)
+ * @method boolean logout()
+ *
  */
 class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implements IXenmobile_RESTWS_Authentication
 {
