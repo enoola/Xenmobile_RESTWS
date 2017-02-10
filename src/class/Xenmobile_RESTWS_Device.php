@@ -6,15 +6,55 @@ require_once('./class/Xenmobile_RESTWS_Authentication.php');
 
 error_reporting(E_ALL);
 
+/**
+ * Use as a parent object to login.
+ * can be use alone
+ *
+ * @method mixed AuthorizeAListOfDevices(array $arSequentialID)
+ * @method mixed ApplyActivationLockBypassOnAListOfDevices(array $arSequentialID)
+ * @method mixed ApplyAppLockOnAListOfDevices(array $arSequentialID)
+ * @method mixed ApplyAppWipeOnAListOfDevices(array $arSequentialID)
+ * @method mixed ApplyContainerLockOnAListOfDevices(array $arSequentialID)
+ * @method mixed CancelContainerLockOnAListOfDevices(array $arSequentialID)
+ * @method mixed ApplyContainerUnlockOnAListOfDevices(array $arSequentialID)
+ * @method mixed CancelContainerUnlockOnAListOfDevices(array $arSequentialID)
+ * @method mixed ResetContainerPasswordOnAListOfDevices(array $arSequentialID)
+ * @method mixed CancelResetContainerPasswordOnAListOfDevices(array $arSequentialID)
+ * @method mixed DisownAListOfDevices(array $arSequentialID)
+ * @method mixed LocateAListOfDevices(array $arSequentialID)
+ * @method mixed CancelLocateAListOfDevices(array $arSequentialID)
+ * @method mixed ApplyGPSTrackingOnAListOfDevices(array $arSequentialID)
+ * @method mixed CancelGPSTrackingOnAListOfDevices(array $arSequentialID)
+ * @method mixed LockAListOfDevices(array $arSequentialID)
+ * @method mixed CancelLockAListOfDevices(array $arSequentialID)
+ * @method mixed LockAListOfDevices(array $arSequentialID)
+ * @method mixed DeployAListOfDevices(array $arSequentialID)
+ * @method mixed RequestForAirPlayMirroringOnAListOfDevices(array $arSequentialID)
+ * @method mixed CancelRequestForAirPlayMirroringOnAListOfDevices(array $arSequentialID)
+ * @method mixed StopAirPlayMirroringOnAListOfDevices(array $arSequentialID)
+ * @method mixed CancelStopAirPlayMirroringOnAListOfDevices(array $arSequentialID)
+ * @method mixed ClearAllRestrictionsOnAListOfDevices(array $arSequentialID)
+ * @method mixed CancelClearAllRestrictionsOnAListOfDevices(array $arSequentialID)
+ * @method mixed RevokeAListOfDevices(array $arSequentialID)
+ * @method mixed RingAListOfDevices(array $arSequentialID)
+ * @method mixed CancelRingAListOfDevices(array $arSequentialID)
+ * @method mixed WipeAListOfDevices(array $arSequentialID)
+ * @method mixed CancelWipeAListOfDevices(array $arSequentialID)
+ * @method mixed SelectivelyWipeAListOfDevices(array $arSequentialID)
+ * @method mixed CancelSelectivelyWipeAListOfDevices(array $arSequentialID)
+ * @method mixed WipeTheSDCardsOnAListOfDevices(array $arSequentialID)
+ * @method mixed CancelWipeTheSDCardsOnAListOfDevices(array $arSequentialID)
+ *
+ */
 
 
 class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
 {
   const SZ_WS_CLASSNAME = 'device';
+
   private $_arImplementedMethod = array();
   protected $_arMethodMatrix = array(
-    array('AuthorizeAListOfDevices','authorize')
-);
+    array('AuthorizeAListOfDevices','authorize') );
 
 
   public function __construct($szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
