@@ -64,21 +64,21 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     parent::__construct( $szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false);
     parent::_setClassname( self::SZ_WS_CLASSNAME );
 
-    $this->_addVirtualMethod('AuthorizeAListOfDevices','authorize');
-    $this->_addVirtualMethod('ApplyActivationLockBypassOnAListOfDevices','activationLockBypass');
-    $this->_addVirtualMethod('ApplyAppLockOnAListOfDevices','appLock');
-    $this->_addVirtualMethod('ApplyAppWipeOnAListOfDevices','appWipe');
-    $this->_addVirtualMethod('ApplyContainerLockOnAListOfDevices','containerLock');
-    $this->_addVirtualMethod('CancelContainerLockOnAListOfDevices','containerLock','cancel');
-    $this->_addVirtualMethod('ApplyContainerUnlockOnAListOfDevices','containerUnlock');
-    $this->_addVirtualMethod('CancelContainerUnlockOnAListOfDevices','containerUnlock','cancel');
-    $this->_addVirtualMethod('ResetContainerPasswordOnAListOfDevices','containerPwdReset');
-    $this->_addVirtualMethod('CancelResetContainerPasswordOnAListOfDevices','containerPwdReset', 'cancel');
-    $this->_addVirtualMethod('DisownAListOfDevices','disown', 'cancel');
-    $this->_addVirtualMethod('LocateAListOfDevices','locate');
-    $this->_addVirtualMethod('CancelLocateAListOfDevices','locate','cancel');
-    $this->_addVirtualMethod('ApplyGPSTrackingOnAListOfDevices','track');
-    $this->_addVirtualMethod('CancelGPSTrackingOnAListOfDevices','track','cancel');
+    $this->_addVirtualMethod( 'AuthorizeAListOfDevices', 'authorize' );
+    $this->_addVirtualMethod( 'ApplyActivationLockBypassOnAListOfDevices', 'activationLockBypass' );
+    $this->_addVirtualMethod( 'ApplyAppLockOnAListOfDevices', 'appLock' );
+    $this->_addVirtualMethod( 'ApplyAppWipeOnAListOfDevices', 'appWipe' );
+    $this->_addVirtualMethod( 'ApplyContainerLockOnAListOfDevices', 'containerLock' );
+    $this->_addVirtualMethod( 'CancelContainerLockOnAListOfDevices', 'containerLock', 'cancel' );
+    $this->_addVirtualMethod( 'ApplyContainerUnlockOnAListOfDevices', 'containerUnlock' );
+    $this->_addVirtualMethod( 'CancelContainerUnlockOnAListOfDevices', 'containerUnlock', 'cancel' );
+    $this->_addVirtualMethod( 'ResetContainerPasswordOnAListOfDevices', 'containerPwdReset' );
+    $this->_addVirtualMethod( 'CancelResetContainerPasswordOnAListOfDevices', 'containerPwdReset', 'cancel' );
+    $this->_addVirtualMethod( 'DisownAListOfDevices', 'disown', 'cancel' );
+    $this->_addVirtualMethod( 'LocateAListOfDevices', 'locate' );
+    $this->_addVirtualMethod( 'CancelLocateAListOfDevices', 'locate', 'cancel' );
+    $this->_addVirtualMethod( 'ApplyGPSTrackingOnAListOfDevices', 'track' );
+    $this->_addVirtualMethod( 'CancelGPSTrackingOnAListOfDevices', 'track', 'cancel');
     /*
     * Lock a List of Devices
     *
@@ -91,25 +91,25 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
           screenSharingPwd – password for screen sharing
     * need to be tested
     */
-    $this->_addVirtualMethod('LockAListOfDevices','lock');
-    $this->_addVirtualMethod('CancelLockAListOfDevices','lock','cancel');
-    $this->_addVirtualMethod('LockAListOfDevices','unlock');
-    $this->_addVirtualMethod('DeployAListOfDevices','refresh');
-    $this->_addVirtualMethod('RequestForAirPlayMirroringOnAListOfDevices','requestMirroring');
-    $this->_addVirtualMethod('CancelRequestForAirPlayMirroringOnAListOfDevices','requestMirroring','cancel');
-    $this->_addVirtualMethod('StopAirPlayMirroringOnAListOfDevices','stopMirroring');
-    $this->_addVirtualMethod('CancelStopAirPlayMirroringOnAListOfDevices','stopMirroring','cancel');
-    $this->_addVirtualMethod('ClearAllRestrictionsOnAListOfDevices','restrictions','clear');
-    $this->_addVirtualMethod('CancelClearAllRestrictionsOnAListOfDevices','restrictions','clear/cancel');
-    $this->_addVirtualMethod('RevokeAListOfDevices','revoke');
-    $this->_addVirtualMethod('RingAListOfDevices','ring');
-    $this->_addVirtualMethod('CancelRingAListOfDevices','ring','cancel');
-    $this->_addVirtualMethod('WipeAListOfDevices','wipe');
-    $this->_addVirtualMethod('CancelWipeAListOfDevices','wipe','cancel');
-    $this->_addVirtualMethod('SelectivelyWipeAListOfDevices','selwipe');
-    $this->_addVirtualMethod('CancelSelectivelyWipeAListOfDevices','selwipe','cancel');
-    $this->_addVirtualMethod('WipeTheSDCardsOnAListOfDevices','sdcardwipe');
-    $this->_addVirtualMethod('CancelWipeTheSDCardsOnAListOfDevices','sdcardwipe','cancel');
+    $this->_addVirtualMethod( 'LockAListOfDevices', 'lock' );
+    $this->_addVirtualMethod( 'CancelLockAListOfDevices', 'lock', 'cancel' );
+    $this->_addVirtualMethod( 'LockAListOfDevices', 'unlock' );
+    $this->_addVirtualMethod( 'DeployAListOfDevices', 'refresh' );
+    $this->_addVirtualMethod( 'RequestForAirPlayMirroringOnAListOfDevices', 'requestMirroring' );
+    $this->_addVirtualMethod( 'CancelRequestForAirPlayMirroringOnAListOfDevices', 'requestMirroring', 'cancel' );
+    $this->_addVirtualMethod( 'StopAirPlayMirroringOnAListOfDevices', 'stopMirroring' );
+    $this->_addVirtualMethod( 'CancelStopAirPlayMirroringOnAListOfDevices', 'stopMirroring', 'cancel' );
+    $this->_addVirtualMethod( 'ClearAllRestrictionsOnAListOfDevices', 'restrictions', 'clear' );
+    $this->_addVirtualMethod( 'CancelClearAllRestrictionsOnAListOfDevices', 'restrictions', 'clear/cancel' );
+    $this->_addVirtualMethod( 'RevokeAListOfDevices', 'revoke' );
+    $this->_addVirtualMethod( 'RingAListOfDevices', 'ring' );
+    $this->_addVirtualMethod( 'CancelRingAListOfDevices', 'ring', 'cancel' );
+    $this->_addVirtualMethod( 'WipeAListOfDevices', 'wipe' );
+    $this->_addVirtualMethod( 'CancelWipeAListOfDevices', 'wipe', 'cancel' );
+    $this->_addVirtualMethod( 'SelectivelyWipeAListOfDevices', 'selwipe' );
+    $this->_addVirtualMethod( 'CancelSelectivelyWipeAListOfDevices', 'selwipe', 'cancel' );
+    $this->_addVirtualMethod( 'WipeTheSDCardsOnAListOfDevices', 'sdcardwipe' );
+    $this->_addVirtualMethod( 'CancelWipeTheSDCardsOnAListOfDevices', 'sdcardwipe', 'cancel' );
 
   }
 
@@ -169,7 +169,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
    * @param array arFilterIds
    * @return objStdClass() arQuery : {(int)status,(string)message,(objStdClass)currentFilter->(array)detail}
    */
-  public function GetDeviceByFilters_EasySearch($szSearch, $arFilterIds = null, $nLimit = 9)
+  public function GetDeviceByFilters_EasySearch( $szSearch, $arFilterIds = null, $nLimit = 9 )
   {
     if (!is_null($arFilterIds) && !is_array($arFilterIds))
       throw new Xenmobile_RESTWS_Exception( 'Second argument arFilterIds shall be an sequential array',__METHOD__ );
@@ -234,7 +234,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
    *                              ->(array)arFilters[]->(string)displayName
    *                                                  ->(string)name
    */
-  public function GetDeviceInformationByID($nDeviceID)
+  public function GetDeviceInformationByID( $nDeviceID )
   {
     $this->log(__METHOD__);
 
@@ -282,7 +282,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
    *
    * @return StdClassname application[]->(string)name, status,...
    */
-   public function GetAppsByDeviceID($nDeviceID)
+   public function GetAppsByDeviceID( $nDeviceID )
    {
      return ( $this->_getInformationByDeviceID('apps', $nDeviceID) );
    }
@@ -294,7 +294,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     *
     * @return StdClassname actions[]->(string)ressourceType, ressourceTypeLabel,...
     */
-    public function GetActionsByDeviceID($nDeviceID)
+    public function GetActionsByDeviceID( $nDeviceID )
     {
       return ( $this->_getInformationByDeviceID('actions', $nDeviceID) );
     }
@@ -306,7 +306,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
      *
      * @return StdClassname deliveryGroups[]->(string)statuslabel, linkey, status,...
      */
-     public function GetDeliveryGroupsByDeviceID($nDeviceID)
+     public function GetDeliveryGroupsByDeviceID( $nDeviceID )
      {
        return ( $this->_getInformationByDeviceID('deliverygroups', $nDeviceID) );
      }
@@ -319,7 +319,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
      *
      * @return StdClassname softwareInventory[]->(string)version, blacklistCompliant, suggestedListCompliant,...
      */
-     public function GetManagedSoftwareInventoryByDeviceID($nDeviceID)
+     public function GetManagedSoftwareInventoryByDeviceID( $nDeviceID )
      {
        return ( $this->_getInformationByDeviceID('managedswinventory', $nDeviceID) );
      }
@@ -332,7 +332,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
      *
      * @return StdClassname policies[]->(string)version, ressourceType, ressourceTypeLabel,...
      */
-     public function GetPoliciesByDeviceID($nDeviceID)
+     public function GetPoliciesByDeviceID( $nDeviceID )
      {
        return ( $this->_getInformationByDeviceID('policies', $nDeviceID) );
      }
@@ -345,7 +345,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
       *
       * @return StdClassname softwareInventory[]->(string)version, blacklistCompliant, suggestedListCompliant,...
       */
-      public function GetSoftwareInventoryByDeviceID($nDeviceID)
+      public function GetSoftwareInventoryByDeviceID( $nDeviceID )
       {
         return ( $this->_getInformationByDeviceID('softwareinventory', $nDeviceID) );
       }
@@ -357,7 +357,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
      *
      * @return StdClassname softwareInventory[]->(string)version, blacklistCompliant, suggestedListCompliant,...
      */
-     public function GetGPSCoordinateByDeviceID($nDeviceID)
+     public function GetGPSCoordinateByDeviceID( $nDeviceID )
      {
        return ( $this->_getInformationByDeviceID($nDeviceID, 'locations') );
      }
@@ -373,7 +373,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     *
     */
    //private function _getInformationByDeviceID( $szSeekedInformation, $nDeviceID )
-   private function _getInformationByDeviceID(  $szPath, $szMethod )
+   private function _getInformationByDeviceID( $szPath, $szMethod )
    {
      $this->log(__METHOD__);
 
@@ -430,7 +430,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
       "sound": "Casino.wav"
     }
   */
-  public function SendNotificationToAListOfDevicesOrUsers($arQuery)
+  public function SendNotificationToAListOfDevicesOrUsers( $arQuery )
   {
     $this->log(__METHOD__);
 
@@ -474,7 +474,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
       'agent'       => 'false',
       'templateId'  => -1);
 
-    $retValue = $this->_doRequest('notify', null, $arQueryNotification, 'POST');
+    $retValue = $this->_doRequest( 'notify', null, $arQueryNotification, 'POST');
 
     return ($this->_handleResponse());
   }
@@ -507,7 +507,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
       'agent'       => 'false',
       'templateId'  => -1);
 
-    $retValue = $this->_doRequest('notify', null, $arQueryNotification, 'POST');
+    $retValue = $this->_doRequest( 'notify', null, $arQueryNotification, 'POST');
 
     return ($this->_handleResponse());
   }
@@ -532,7 +532,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
       'agent'       => 'true',
       'templateId'  => -1);
 
-    $retValue = $this->_doRequest('notify', null, $arQueryNotification, 'POST');
+    $retValue = $this->_doRequest( 'notify', null, $arQueryNotification, 'POST');
 
     return ($this->_handleResponse());
   }
@@ -569,7 +569,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   *
   * @return mixed see self::_handleResponse
   */
-  public function GetAllDevicePropertiesByDeviceID($nDeviceID)
+  public function GetAllDevicePropertiesByDeviceID( $nDeviceID )
   {
     $this->log(__METHOD__);
 
@@ -587,7 +587,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   *
   * @return mixed see self::_handleResponse
   */
-  public function UpdateAllDevicePropertiesByDeviceID($nDeviceID, $arAllProperties)
+  public function UpdateAllDevicePropertiesByDeviceID( $nDeviceID, $arAllProperties )
   {
     $this->log(__METHOD__);
 
@@ -605,7 +605,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   *
   * @return mixed see self::_handleResponse
   */
-  public function AddOrUpdateADevicePropertyByDeviceID($nDeviceID, $arOneProperty)
+  public function AddOrUpdateADevicePropertyByDeviceID( $nDeviceID, $arOneProperty )
   {
     $this->log(__METHOD__);
 
@@ -626,7 +626,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   *
   * @return mixed see self::_handleResponse
   */
-  public function DeleteADevicePropertyByDeviceID($nDeviceID, $arOneProperty)
+  public function DeleteADevicePropertyByDeviceID( $nDeviceID, $arOneProperty )
   {
     $this->log(__METHOD__);
 
@@ -645,7 +645,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   *
   * @return mixed see self::_handleResponse
   */
-  public function GetiOSDeviceMDMStatusbyDeviceID($nDeviceID)
+  public function GetiOSDeviceMDMStatusbyDeviceID( $nDeviceID )
   {
     $this->log(__METHOD__);
 
@@ -664,7 +664,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   *
   * @return mixed see self::_handleResponse
   */
-  public function GeneratePinCode( $nLength)
+  public function GeneratePinCode( $nLength )
   {
     $this->log(__METHOD__);
 
@@ -696,7 +696,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
 
 
 
-  protected function _addVirtualMethod($szVirtualName, $szMethod, $szPath = null)
+  protected function _addVirtualMethod( $szVirtualName, $szMethod, $szPath = null )
   {
     //$this->_arMethodMatrix = array($szVirtualName);
     $oEntry = new \StdClass;
@@ -757,7 +757,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     *
     * @name
    */
-   public function __call($szName, $arAguments)
+   public function __call( $szName, $arAguments )
    {
      if ( array_key_exists($szName, $this->_arMethodMatrix) != true)
      {
@@ -778,7 +778,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
    *
    * @return mixed see self::_handleResponse
    */
-   private function _myCallback_DoByAListOfDevices($szMethod, $szPath,$arSequentialID )
+   private function _myCallback_DoByAListOfDevices( $szMethod, $szPath, $arSequentialID )
    {
        $this->log('required : '.$szMethod, __METHOD__);
 
@@ -790,19 +790,5 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
 
 
  }
-
-/*Others*
-
-*/
-
-/*
-$methodOne = function ($szMethod, $szPath, $arnID)
-{
-    echo "I am  doing one.".PHP_EOL;
-    echo $szMethod.PHP_EOL;
-    echo $szPath.PHP_EOL;
-};
-
-*/
 
 ?>
