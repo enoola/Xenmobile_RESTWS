@@ -20,7 +20,7 @@ class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implemen
 
   private $_szUsername = null;
 
-  function __construct( $szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
+  public function __construct( $szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
   {
     $this->log('in', __METHOD__);
     $this->log(self::SZ_WS_CLASSNAME, __METHOD__);
@@ -29,7 +29,7 @@ class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implemen
     parent::__construct( self::SZ_WS_CLASSNAME, $szFQDN, $nPort, $szProtocol, $bVerifySSL);
   }
 
-  function __destruct()
+  public function __destruct()
   {
     $this->log('in', __METHOD__);
 
