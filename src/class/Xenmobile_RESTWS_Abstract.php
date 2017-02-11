@@ -38,7 +38,8 @@ abstract class Xenmobile_RESTWS_Abstract
   private $_errorCodes = array();
 
   /**
-   * Setup API
+   * Setup API since this is a Abstract class we set constructor as
+   * protected for child to call it
    *
    * @param string $szClassName {certificates, licenses, ldap, netscaler, notificationserver,deliverygroups, user,localusergroups, groups, serverproperties,application..}
    * @param string $szFQDN
@@ -47,7 +48,7 @@ abstract class Xenmobile_RESTWS_Abstract
    * @param boolean $bVerifySSL
    *
    */
-  public function __construct( $szClassName, $szFQDN, $nPort = self::PORT_DEFAULT_HTTPS, $szProtocol = self::PROTOCOL_HTTPS, $bVerifySSL = false)
+  protected function __construct( $szClassName, $szFQDN, $nPort = self::PORT_DEFAULT_HTTPS, $szProtocol = self::PROTOCOL_HTTPS, $bVerifySSL = false)
   {
     $this->_szClassName = $szClassName;
     $this->_szFQDN = $szFQDN;

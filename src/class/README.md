@@ -80,3 +80,25 @@
         - ChangeUserPassword
         - DeleteOneUser
         - ImportProvisioningFile
+
+
+##Different view of implemented Class/Method
+### Public and useful usage methods only are exposed here
+
+###Class Xenmobile_RESTWS_Authentication
+
+```php
+public function __construct( $szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
+public function login( $szUsername, $szPassword )
+public function cwclogin($szContext, $szCustomerId, $szServiceKey)
+public function logout()
+```
+
+###Class Xenmobile_RESTWS_ServerProperties inherited from Class Xenmobile_RESTWS_Authentication
+```php
+public function __construct( $szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
+public  __destruct()
+public function login( $szUsername, $szPassword )
+public function cwclogin($szContext, $szCustomerId, $szServiceKey)
+public function logout()
+```
