@@ -1,5 +1,5 @@
 # This is a PhP Client for Xenmobile REST Webservice
-
+###### Bear in mind that you do have descriptions on each folder (through README.md)
 
 - Aim : Provide a PhP client for Citrix Xenmobile Rest Webservices (for version superior or equal to 10.3)
 - Means : php mainly maybe other later like ( composer, pear, phpDocumentor, github, community I hope :) )
