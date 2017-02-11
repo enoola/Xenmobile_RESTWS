@@ -33,6 +33,9 @@ if ( $oCliXM_WS->login($arConfig['username'], $arConfig['password'] ) == false )
 }
 echo 'auth_token :' . $oCliXM_WS->getAuthToken() . PHP_EOL;
 
+
+//var_dump( $oCliXM_WS->GetDeviceByFilters_EasySearch('user') );
+
 //$oCliXM_WS->DisplayAvailableFilterIds();
 
 //print_r($oCliXM_WS->GetInformationByID(74));
@@ -97,7 +100,7 @@ $arQueryNotification = array ( 'smtpFrom' => 'Xenmobile',
 
 
 
-print_r( $oCliXM_WS->GetDeviceLastLocationByDeviceID(1) );
+//print_r( $oCliXM_WS->GetDeviceLastLocationByDeviceID(2) );
 
 //print_r($oCliXM_WS->GeneratePinCode( array('parameters'=>array('pinCodeLength'=>8 ) ) ) );
 
