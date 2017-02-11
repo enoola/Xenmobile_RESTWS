@@ -240,27 +240,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
 
     $retValue = $this->_doRequest($nDeviceID, null, null, 'get');
 
-    if ($this->getLastHttpReturn()['http_code'] == 403)
-    {
-      throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult() );
-    }
-    else
-    {
-      if ( $this->getLastRequestResult() && is_object($this->getLastRequestResult()) )
-        {
-          if ( isset( $this->getLastRequestResult()->status ) )
-            {
-              return ( $this->getLastRequestResult() );
-            }
-        }
-    }
-
-    if ($this->getLastRequestResult()->status != 0)
-    {
-        $this->log( $this->getLastRequestResult(), __METHOD__ );
-    }
-
-    throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult()->message, $this->getLastRequestResult()->status );
+    return ( $this->_handleResponse() );
   }
   /* End implementation Get Device information by ID
    * xenmobile/api/v1/device/{device_id}
@@ -558,22 +538,24 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   }
 
   /*
+   * Get all properties of a device
    *
-   * not reliable
+   * @param int nID
    */
-  private function GetAllKnownPropertiesOnADevice( $nID )
+  public function GetAllKnownPropertiesOnADevice( $nID )
   {
     $this->log(__METHOD__);
 
-    $this->_doRequest('knownProperties', null, $arSequentialID, 'GET');
+    $this->_doRequest('knownProperties', null, $nID, 'GET');
 
     return ( $this->_handleResponse() );
   }
-  private function GetAllUsedPropertiesOnADevice( $nID )
+
+  public function GetAllUsedPropertiesOnADevice( $nID )
   {
     $this->log(__METHOD__);
 
-    $this->_doRequest('usedProperties', null, $arSequentialID, 'GET');
+    $this->_doRequest('usedProperties', null, $nID, 'GET');
 
     return ( $this->_handleResponse() );
   }
@@ -591,7 +573,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   {
     $this->log(__METHOD__);
 
-    $this->_doRequest('usedProperties', $nDeviceID, $arSequentialID, 'GET');
+    $this->_doRequest($nDeviceID, null, null, 'GET');
 
     return ( $this->_handleResponse() );
   }
