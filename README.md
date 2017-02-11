@@ -1,10 +1,10 @@
 # This is a PhP Client for Xenmobile REST Webservice
 
 
-Aim : Provide a PhP client for Citrix Xenmobile Rest Webservices (for version superior or equal to 10.3)
-Means : php mainly maybe other later like ( composer, pear, phpDocumentor, github, community I hope :) )
+- Aim : Provide a PhP client for Citrix Xenmobile Rest Webservices (for version superior or equal to 10.3)
+- Means : php mainly maybe other later like ( composer, pear, phpDocumentor, github, community I hope :) )
 Constraints :
-  - provider webservices responses can be disturbing (with a status containing a message without a status..),
+- provider webservices responses can be disturbing (with a status containing a message without a status..),
   so singularity have been added to classes in order to handle that.
 
 ##Pre-requisites
@@ -15,87 +15,6 @@ Do not hesitate to reach out if you need help in implementing workaround methods
 
 PhP >= 5.6
  . https://secure.php.net/manual/en/
-
-#Implemented class/method
-
-- Xenmobile_RESTWS_Abstract
-  - Xenmobile_RESTWS_Authentication /authentication
-    - login : /login
-    - cwclogin : /cwclogin
-    - logout : /logout
-    - Xenmobile_RESTWS_Device /device
-      - GetDeviceByFilters /filter
-      - GetDeviceByFilters_EasySearch
-      - GetAvailableFilterIds
-      - DisplayAvailableFilterIds
-      - GetDeviceInformationByID /filter/{id}
-      - AuthorizeAListOfDevices(ar_ids)
-      - ApplyActivationLockBypassOnAListOfDevices(ar_ids)
-      - ApplyAppLockOnAListOfDevices(ar_ids)
-      - ApplyAppWipeOnAListOfDevices(ar_ids)
-      - ApplyContainerLockOnAListOfDevices(ar_ids)
-      - CancelContainerLockOnAListOfDevices(ar_ids)
-      - ApplyContainerUnlockOnAListOfDevices(ar_ids)
-      - CancelContainerUnlockOnAListOfDevices(ar_ids)
-      - ResetContainerPasswordOnAListOfDevices(ar_ids)
-      - CancelResetContainerPasswordOnAListOfDevices(ar_ids)
-      - DisownAListOfDevices(ar_ids)
-      - LocateAListOfDevices(ar_ids)
-      - CancelLocateAListOfDevices(ar_ids)
-      - ApplyGPSTrackingOnAListOfDevices(ar_ids)
-      - CancelGPSTrackingOnAListOfDevices(ar_ids)
-      - LockAListOfDevices(ar_ids)
-      - CancelLockAListOfDevices(ar_ids)
-      - LockAListOfDevices(ar_ids)
-      - DeployAListOfDevices(ar_ids)
-      - RequestForAirPlayMirroringOnAListOfDevices(ar_ids)
-      - CancelRequestForAirPlayMirroringOnAListOfDevices(ar_ids)
-      - StopAirPlayMirroringOnAListOfDevices(ar_ids)
-      - CancelStopAirPlayMirroringOnAListOfDevices(ar_ids)
-      - ClearAllRestrictionsOnAListOfDevices(ar_ids)
-      - CancelClearAllRestrictionsOnAListOfDevices(ar_ids)
-      - RevokeAListOfDevices(ar_ids)
-      - RingAListOfDevices(ar_ids)
-      - CancelRingAListOfDevices(ar_ids)
-      - WipeAListOfDevices(ar_ids)
-      - CancelWipeAListOfDevices(ar_ids)
-      - SelectivelyWipeAListOfDevices(ar_ids)
-      - CancelSelectivelyWipeAListOfDevices(ar_ids)
-      - WipeTheSDCardsOnAListOfDevices(ar_ids)
-      - CancelWipeTheSDCardsOnAListOfDevices(ar_ids)
-      - GetAllKnownPropertiesOnADevice(device_id) test=KO
-      - GetAllUsedPropertiesOnADevice(devide_id) test=KO
-      - GetAllDevicePropertiesByDeviceID(device_id)
-      - UpdateAllDevicePropertiesByDeviceID(device_id, arNewDeviceProps)
-      - AddOrUpdateADevicePropertyByDeviceID test=KO
-      - DeleteADevicePropertyByDeviceID test=KO argument no clear
-      - GetiOSDeviceMDMStatusbyDeviceID(devide_id)
-      - GeneratePinCode(devide_id)
-      - GetDeviceLastLocationByDeviceID(device_id) xm 10.4 which I haven't yet.
-
-         NO Obvious Method to add devices.
-         Need to dig that. Was doable with SOAP
-
-    - Xenmobile_RESTWS_ServerProperties : /serverproperties
-      - GetAllServerProperties()
-      - GetServerPropertiesByFilter(ar_filter)
-      - AddServerProperty(ar_query)
-      - AddServerProperty_Easy(name,value,displayname,description)
-      - EditServerProperty(ar_names)
-      - EditServerProperty_Easy(name,value,displayname,description)
-      - DeleteServerProperties(ar_names)
-      - ResetServerProperties(ar_names)
-
-    - Xenmobile_RESTWS_LocalUsersGroups : /localusersgroups
-      - GetAllLocalUsers
-      - GetOneLocalUser
-      - AddOneLocalUser
-      - AddOneLocalUser_Easy
-      - UpdateOneLocalUser
-      - UpdateOneLocalUser_Easy
-      - ChangeUserPassword
-      - DeleteOneUser
-      - ImportProvisioningFile
 
 
 ##Usage Example
