@@ -110,9 +110,6 @@
 ```
 
 
-
-
-
 ####Class Xenmobile_RESTWS_Device inherited from Class Xenmobile_RESTWS_Authentication
 ```php
   public function __construct($szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
@@ -135,48 +132,70 @@
   public function GetAllKnownPropertiesOnADevice( $nID )
   public function GetAllUsedPropertiesOnADevice( $nID )
   public function GetAllDevicePropertiesByDeviceID( $nDeviceID )
-  public function UpdateAllDevicePropertiesByDeviceID( $nDeviceID, $arAllProperties )
-  public function AddOrUpdateADevicePropertyByDeviceID( $nDeviceID, $arOneProperty )
-  public function DeleteADevicePropertyByDeviceID( $nDeviceID, $arOneProperty )
   public function GetiOSDeviceMDMStatusbyDeviceID( $nDeviceID )
   public function GeneratePinCode( $nLength )
   public function GetDeviceLastLocationByDeviceID( $nDeviceID )
-  public function __call( $szName, $arAguments )
+  //can't get the below method to work on xm 10.3x
+  public function UpdateAllDevicePropertiesByDeviceID( $nDeviceID, $arAllProperties )
+  public function AddOrUpdateADevicePropertyByDeviceID( $nDeviceID, $arOneProperty )
+  public function DeleteADevicePropertyByDeviceID( $nDeviceID, $arOneProperty )
+
 ```
+
+
 #####Good news there are virtual methods
 ```php
-Xenmobile_RESTWS_Device::AuthorizeAListOfDevices(); //'authorize' );
-Xenmobile_RESTWS_Device::ApplyActivationLockBypassOnAListOfDevices(); //'activationLockBypass' );
-Xenmobile_RESTWS_Device::ApplyAppLockOnAListOfDevices(); //'appLock' );
-Xenmobile_RESTWS_Device::ApplyAppWipeOnAListOfDevices(); //'appWipe' );
-Xenmobile_RESTWS_Device::ApplyContainerLockOnAListOfDevices(); //'containerLock' );
-Xenmobile_RESTWS_Device::CancelContainerLockOnAListOfDevices(); //'containerLock(); //'cancel' );
-Xenmobile_RESTWS_Device::ApplyContainerUnlockOnAListOfDevices(); //'containerUnlock' );
-Xenmobile_RESTWS_Device::CancelContainerUnlockOnAListOfDevices(); //'containerUnlock(); //'cancel' );
-Xenmobile_RESTWS_Device::ResetContainerPasswordOnAListOfDevices(); //'containerPwdReset' );
-Xenmobile_RESTWS_Device::CancelResetContainerPasswordOnAListOfDevices(); //'containerPwdReset(); //'cancel' );
-Xenmobile_RESTWS_Device::DisownAListOfDevices(); //'disown(); //'cancel' );
-Xenmobile_RESTWS_Device::LocateAListOfDevices(); //'locate' );
-Xenmobile_RESTWS_Device::CancelLocateAListOfDevices(); //'locate(); //'cancel' );
-Xenmobile_RESTWS_Device::ApplyGPSTrackingOnAListOfDevices(); //'track' );
-Xenmobile_RESTWS_Device::CancelGPSTrackingOnAListOfDevices(); //'track(); //'cancel');
-Xenmobile_RESTWS_Device::LockAListOfDevices(); //'lock' );
-Xenmobile_RESTWS_Device::CancelLockAListOfDevices(); //'lock(); //'cancel' );
-Xenmobile_RESTWS_Device::LockAListOfDevices(); //'unlock' );
-Xenmobile_RESTWS_Device::DeployAListOfDevices(); //'refresh' );
-Xenmobile_RESTWS_Device::RequestForAirPlayMirroringOnAListOfDevices(); //'requestMirroring' );
-Xenmobile_RESTWS_Device::CancelRequestForAirPlayMirroringOnAListOfDevices(); //'requestMirroring(); //'cancel' );
-Xenmobile_RESTWS_Device::StopAirPlayMirroringOnAListOfDevices(); //'stopMirroring' );
-Xenmobile_RESTWS_Device::CancelStopAirPlayMirroringOnAListOfDevices(); //'stopMirroring(); //'cancel' );
-Xenmobile_RESTWS_Device::ClearAllRestrictionsOnAListOfDevices(); //'restrictions(); //'clear' );
-Xenmobile_RESTWS_Device::CancelClearAllRestrictionsOnAListOfDevices(); //'restrictions(); //'clear/cancel' );
-Xenmobile_RESTWS_Device::RevokeAListOfDevices(); //'revoke' );
-Xenmobile_RESTWS_Device::RingAListOfDevices(); //'ring' );
-Xenmobile_RESTWS_Device::CancelRingAListOfDevices(); //'ring(); //'cancel' );
-Xenmobile_RESTWS_Device::WipeAListOfDevices(); //'wipe' );
-Xenmobile_RESTWS_Device::CancelWipeAListOfDevices(); //'wipe(); //'cancel' );
-Xenmobile_RESTWS_Device::SelectivelyWipeAListOfDevices(); //'selwipe' );
-Xenmobile_RESTWS_Device::CancelSelectivelyWipeAListOfDevices(); //'selwipe(); //'cancel' );
-Xenmobile_RESTWS_Device::WipeTheSDCardsOnAListOfDevices(); //'sdcardwipe' );
-Xenmobile_RESTWS_Device::CancelWipeTheSDCardsOnAListOfDevices(); //'sdcardwipe', 'cancel' );
+Xenmobile_RESTWS_Device::AuthorizeAListOfDevices( $arSequentialDeviceIDs ); //'authorize' );
+Xenmobile_RESTWS_Device::ApplyActivationLockBypassOnAListOfDevices( $arSequentialDeviceIDs ); //'activationLockBypass' );
+Xenmobile_RESTWS_Device::ApplyAppLockOnAListOfDevices( $arSequentialDeviceIDs ); //'appLock' );
+Xenmobile_RESTWS_Device::ApplyAppWipeOnAListOfDevices( $arSequentialDeviceIDs ); //'appWipe' );
+Xenmobile_RESTWS_Device::ApplyContainerLockOnAListOfDevices( $arSequentialDeviceIDs ); //'containerLock' );
+Xenmobile_RESTWS_Device::CancelContainerLockOnAListOfDevices( $arSequentialDeviceIDs ); //'containerLock(); //'cancel' );
+Xenmobile_RESTWS_Device::ApplyContainerUnlockOnAListOfDevices( $arSequentialDeviceIDs ); //'containerUnlock' );
+Xenmobile_RESTWS_Device::CancelContainerUnlockOnAListOfDevices( $arSequentialDeviceIDs ); //'containerUnlock(); //'cancel' );
+Xenmobile_RESTWS_Device::ResetContainerPasswordOnAListOfDevices( $arSequentialDeviceIDs ); //'containerPwdReset' );
+Xenmobile_RESTWS_Device::CancelResetContainerPasswordOnAListOfDevices( $arSequentialDeviceIDs ); //'containerPwdReset(); //'cancel' );
+Xenmobile_RESTWS_Device::DisownAListOfDevices( $arSequentialDeviceIDs ); //'disown(); //'cancel' );
+Xenmobile_RESTWS_Device::LocateAListOfDevices( $arSequentialDeviceIDs ); //'locate' );
+Xenmobile_RESTWS_Device::CancelLocateAListOfDevices( $arSequentialDeviceIDs ); //'locate(); //'cancel' );
+Xenmobile_RESTWS_Device::ApplyGPSTrackingOnAListOfDevices( $arSequentialDeviceIDs ); //'track' );
+Xenmobile_RESTWS_Device::CancelGPSTrackingOnAListOfDevices( $arSequentialDeviceIDs ); //'track(); //'cancel');
+Xenmobile_RESTWS_Device::LockAListOfDevices( $arSequentialDeviceIDs ); //'lock' );
+Xenmobile_RESTWS_Device::CancelLockAListOfDevices( $arSequentialDeviceIDs ); //'lock(); //'cancel' );
+Xenmobile_RESTWS_Device::LockAListOfDevices( $arSequentialDeviceIDs ); //'unlock' );
+Xenmobile_RESTWS_Device::DeployAListOfDevices( $arSequentialDeviceIDs ); //'refresh' );
+Xenmobile_RESTWS_Device::RequestForAirPlayMirroringOnAListOfDevices( $arSequentialDeviceIDs ); //'requestMirroring' );
+Xenmobile_RESTWS_Device::CancelRequestForAirPlayMirroringOnAListOfDevices( $arSequentialDeviceIDs ); //'requestMirroring(); //'cancel' );
+Xenmobile_RESTWS_Device::StopAirPlayMirroringOnAListOfDevices( $arSequentialDeviceIDs ); //'stopMirroring' );
+Xenmobile_RESTWS_Device::CancelStopAirPlayMirroringOnAListOfDevices( $arSequentialDeviceIDs ); //'stopMirroring(); //'cancel' );
+Xenmobile_RESTWS_Device::ClearAllRestrictionsOnAListOfDevices( $arSequentialDeviceIDs ); //'restrictions(); //'clear' );
+Xenmobile_RESTWS_Device::CancelClearAllRestrictionsOnAListOfDevices( $arSequentialDeviceIDs ); //'restrictions(); //'clear/cancel' );
+Xenmobile_RESTWS_Device::RevokeAListOfDevices( $arSequentialDeviceIDs ); //'revoke' );
+Xenmobile_RESTWS_Device::RingAListOfDevices( $arSequentialDeviceIDs ); //'ring' );
+Xenmobile_RESTWS_Device::CancelRingAListOfDevices( $arSequentialDeviceIDs ); //'ring(); //'cancel' );
+Xenmobile_RESTWS_Device::WipeAListOfDevices( $arSequentialDeviceIDs ); //'wipe' );
+Xenmobile_RESTWS_Device::CancelWipeAListOfDevices( $arSequentialDeviceIDs ); //'wipe(); //'cancel' );
+Xenmobile_RESTWS_Device::SelectivelyWipeAListOfDevices( $arSequentialDeviceIDs ); //'selwipe' );
+Xenmobile_RESTWS_Device::CancelSelectivelyWipeAListOfDevices( $arSequentialDeviceIDs ); //'selwipe(); //'cancel' );
+Xenmobile_RESTWS_Device::WipeTheSDCardsOnAListOfDevices( $arSequentialDeviceIDs ); //'sdcardwipe' );
+Xenmobile_RESTWS_Device::CancelWipeTheSDCardsOnAListOfDevices( $arSequentialDeviceIDs ); //'sdcardwipe', 'cancel' );
+```
+
+
+####Class Xenmobile_RESTWS_LocalUsersGroups inherited from Class Xenmobile_RESTWS_Authentication
+```php
+  public function __construct($szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
+  public function __destruct()
+  public function GetAllLocalUsers()
+  public function GetOneLocalUser( $szName )
+  public function AddOneLocalUser( $arQuery )
+  //Extra function to easily leverage AddOneLocalUser
+  public function AddOneLocalUser_Easy( $szUsername, $szPassword, $szRole = 'USER', $arGroups = array(), $arAttributes = null )
+  public function UpdateOneLocalUser( $arQuery )
+  //Extra function to easily leverage UpdateOneLocalUser
+  public function UpdateOneLocalUser_Easy( $szUsername, $szPassword = null, $szRole = null, $arGroups = null, $arAttributes = null )
+  public function ChangeUserPassword( $szUsername, $szNewPassword )
+  private function DeleteUsers( $arUsernames )
+  public function DeleteOneUser( $szOneUser )
+  public function ImportProvisioningFile( $szCSVFilePath )
 ```
