@@ -220,7 +220,7 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
   public function DeleteServerProperties(  $arSequentialNamesOfPropertiesToDelete )
   {
     $this->log(__METHOD__);
-
+    throw new Xenmobile_RESTWS_Exception( 'Unable to make this one work...' );
     $strQuery = '{ '.PHP_EOL.'"'.implode('" ,'.PHP_EOL.'"', $arSequentialNamesOfPropertiesToDelete).'"'.PHP_EOL.' }';
   //  if (!is_array($arSequentialNamesOfPropertiesToReset) )
   //    throw new \InvalidArgumentException('invalid argument array expected '.gettype($arSequentialNamesOfPropertiesToReset).' given' );
@@ -228,9 +228,9 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
     //$arQuery = array( 'names' => $arSequentialNamesOfPropertiesToReset );
     $retValue = $this->_doRequest(null, null, (string) $strQuery, 'DELETE');
 
-    echo '---->'.PHP_EOL;
-    print_r($this->_szLastJsonRequest);
-    echo PHP_EOL.'<------'.PHP_EOL;
+  //  echo '---->'.PHP_EOL;
+  //  print_r($this->_szLastJsonRequest);
+  //  echo PHP_EOL.'<------'.PHP_EOL;
     return (parent::_handleResponse());
   }
 

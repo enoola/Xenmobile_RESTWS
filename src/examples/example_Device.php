@@ -38,7 +38,14 @@ echo 'auth_token :' . $oCliXM_WS->getAuthToken() . PHP_EOL;
 
 //$oCliXM_WS->DisplayAvailableFilterIds();
 
-//print_r($oCliXM_WS->GetInformationByID(74));
+$oCliXM_WS->GetDeviceInformationByID(2);
+$deviceToken = $oCliXM_WS->getLastRequestResult()->device->deviceToken;
+$oCliXM_WS->SendNotificationToAListOfDevice(2, $deviceToken, 'a notification.');
+
+print_r($oCliXM_WS->getLastRequestResult() );
+
+
+
 //print_r($oCliXM_WS->GetAppsByDeviceID(74));
 //print_r($oCliXM_WS->GetDeliveryGroupsByDeviceID(74));
 //print_r($oCliXM_WS->GetManagedSoftwareInventoryByDeviceID(74));

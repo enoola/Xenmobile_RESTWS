@@ -518,14 +518,20 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   * I don't know how to implement it YET
   *
   */
-  private function SendNotificationToAListOfDevice( $nDeviceID, $szMessage )
+  public function SendPushNotificationToAListOfDevice( $nDeviceID, $szDeviceToken, $szMessage, $szDeviceType = 'Android' )
   {
     $this->log(__METHOD__);
+
+    $arShtp = array ('value' => $szDeviceToken);
+    $arShtp['type'] = 'apns';
+    if (strcmp('Android', $szDeviceType ) == 0)
+      $arShtp['type'] = 'shtp';
+
     $arQueryNotification = array (
       'to'          => array ( array(
                               'deviceId' => $nDeviceID ,
-                              'osFamily'      => 'Android', //==> GET BUGGY When using this (for mail and SMS)
-                              'token' => array ('type'=>'shtp')
+                              //'osFamily'      => $szDeviceType, //==> GET BUGGY When using this (for mail and SMS and Notification)
+                              'token' => $arShtp
                         ) ),
       'smtp'        => 'false',
       'sms'         => 'false',
@@ -580,6 +586,8 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
 
   /*
   * Update All Device Properties by Device ID
+  * /!\ Be carefull it updates ALL (so remind to get properties then modify
+  *     then put them all back ...)
   *
   * @notes unable to make it work with XM 10.3x return 500 json
   * @param int nDeviceID
@@ -598,6 +606,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
 
   /*
   * Add or Update a Device Property by Device ID
+  * /!\ Not Working
   *
   * @notes unable to make it work with XM 10.3x return 500 jsoncode : 1000
   * @param int nDeviceID
@@ -608,16 +617,40 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   public function AddOrUpdateADevicePropertyByDeviceID( $nDeviceID, $arOneProperty )
   {
     $this->log(__METHOD__);
+    throw new Xenmobile_RESTWS_Exception('Not Working with XM10.3!');
 
     $this->_doRequest('properties', $nDeviceID, $arOneProperty, 'POST');
 
     return ( $this->_handleResponse() );
   }
 
+  /*
+  * Add or Update a Device Property by Device ID
+  * Extra Method /!\ Not Working
+  *
+  * @notes unable to make it work with XM 10.3x return 500 jsoncode : 1000
+  * @param int nDeviceID
+  * @param array arProperties name, value
+  *
+  * @return mixed see self::_handleResponse
+  */
+  public function AddOrUpdateADevicePropertyByDeviceID_Easy( $nDeviceID, $szNameProp, $szNameValue )
+  {
+    $this->log(__METHOD__);
+    throw new Xenmobile_RESTWS_Exception('Not Working with XM10.3!');
+
+    $arQuery = array('name'=>$szNameProp, 'value'=>$szNameValue );
+
+    $this->AddOrUpdateADevicePropertyByDeviceID($nDeviceID, $arQuery);
+
+
+    return ( $this->_handleResponse() );
+  }
 
 
   /*
   * Delete a Device Property by Device ID
+  * /!\ Not working
   *
   * @notes unable to make it work with XM 10.3x return 500 jsoncode : 1000
   *        even id, name, value.. (doesn't behave as expected)
@@ -630,6 +663,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   {
     $this->log(__METHOD__);
 
+    throw new Xenmobile_RESTWS_Exception('Not Working with XM10.3!');
     $this->_doRequest('properties', $nDeviceID, $arOneProperty, 'DELETE');
 
     return ( $this->_handleResponse() );
@@ -658,9 +692,8 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   * Generate Pin Code
   *
   * @notes Query Parameters: pinCodeLength – the length of the requested pin code
-  *        unable to make it work with XM 10.3x return 500 jsoncode : 1000
-  * @param int nDeviceID
-  * @param array arProperties name, value
+  *        the pincode size doesn't work as expected (it always return pincode of 4 digit)
+  * @param int nLength
   *
   * @return mixed see self::_handleResponse
   */
@@ -668,7 +701,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   {
     $this->log(__METHOD__);
 
-    $this->_doRequest('pinCode', 'generate', array( 'pinCodeLength' => $nLength ), 'GET');
+    $this->_doRequest('pincode', 'generate', array( 'pinCodeLength' => $nLength ), 'GET');
 
     return ( $this->_handleResponse() );
   }

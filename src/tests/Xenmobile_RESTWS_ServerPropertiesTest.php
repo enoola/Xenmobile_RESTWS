@@ -174,11 +174,11 @@ class Xenmobile_RESTWS_ServerPropertiesTest extends UnitTestCase
     $this->assertIdentical( $this->_oCliXM_WS->getLastRequestResult()->allEwProperties[0]->displayName, $arNewProp['displayName']);
     $this->assertIdentical( $this->_oCliXM_WS->getLastRequestResult()->allEwProperties[0]->description, $arNewProp['description']);
 
+    $this->expectException( 'enoola_Citrix_Client\Xenmobile_RESTWS_Exception' );
 
     $this->_oCliXM_WS->DeleteServerProperties(array($arNewProp['name'],'testprop') );
-    $this->assertIdentical($this->_oCliXM_WS->getLastRequestResult()->status, 0);
-
-
+    //$this->assertIdentical($this->_oCliXM_WS->getLastRequestResult()->status, 0);
+    //print_r($this->_oCliXM_WS->getLastRequestResult());
   }
 
 

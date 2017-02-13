@@ -147,7 +147,6 @@ abstract class Xenmobile_RESTWS_Abstract
       if (isset($arParams) && !is_null($arParams) && is_array($arParams))
       {
         $jsonParams = json_encode($arParams);
-
         //die ($jsonParams);
         /*
          * Little ugly patch
@@ -246,29 +245,12 @@ abstract class Xenmobile_RESTWS_Abstract
 * ---------------------- ICI --------------------------
 */
   abstract protected function _setAuthToken( $szAuthToken );
-/*  protected function _getAuthToken()
-  {
-    $this->log(__METHOD__, 'Function');
-    //$this->log( $this->_szAuthToken, __METHOD__);
-    return ( $this->_szAuthToken );
-  }
-*/
-//  abstract protected function _getAuthToken();
 
-
-
-/*
-  abstract protected function _setLastRequestResult( $szLastRequestResult );
-  abstract protected function _setLastHttpReturn( $szLastHttpReturn );
-  abstract protected function _setLastJsonRequest( $szLastJsonRequest );
-  abstract protected function _setLastRequestCurlError( $szLastRequestCurlError );
-*/
   /**
    * Return last request array http information
    *
    * @return mixed : array with last request return can be null
    */
-
   protected function _setLastHttpReturn( $arLastHttpReturn )
   {
     $this->_arLastHttpReturn = $arLastHttpReturn;
@@ -295,41 +277,6 @@ abstract class Xenmobile_RESTWS_Abstract
     }
   }
 
-/*
-  protected function _getLastHttpReturn( )
-  {
-    return ( $this->_arLastHttpReturn );
-  }
-  protected function _getLastRequestCurlError()
-  {
-    return ( $this->_szLastRequestCurlError );
-  }
-
-    protected function _getLastJsonRequest()
-    {
-      return ( $this->_szLastJsonRequest );
-    }
-*/
-    /**
-     * Return last request result body
-     *
-     * @return mixed : object with last request return can be null
-     */
-    ///protected function _getLastRequestResult()
-    ///{
-    ///  return ( $this->_oRequestLastReturn );
-    ///}
-
-/*
-  protected function setProperties($szLastRequestCurlError, $szLastRequestResult, $szLastHttpReturn)
-  {
-    $this->_szLastRequestCurlError = $szLastRequestCurlError;
-    self::_setLastRequestResult( $szLastRequestResult );
-    self::_setLastHttpReturn( $szLastHttpReturn );
-
-    return ;
-  }
-*/
 
   /**
    * Needs to be improved
