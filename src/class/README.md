@@ -80,6 +80,8 @@
         - ChangeUserPassword
         - DeleteOneUser
         - ImportProvisioningFile
+      - Xenmobile_RESTWS_Netscaler : /netscaler
+        - listConfigurations
 
 
 ##Different view of implemented Class/Method
@@ -182,7 +184,6 @@ Xenmobile_RESTWS_Device::WipeTheSDCardsOnAListOfDevices( $arSequentialDeviceIDs 
 Xenmobile_RESTWS_Device::CancelWipeTheSDCardsOnAListOfDevices( $arSequentialDeviceIDs ); //'sdcardwipe', 'cancel' );
 ```
 
-
 ####Class Xenmobile_RESTWS_LocalUsersGroups inherited from Class Xenmobile_RESTWS_Authentication
 ```php
   public function __construct($szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
@@ -199,4 +200,11 @@ Xenmobile_RESTWS_Device::CancelWipeTheSDCardsOnAListOfDevices( $arSequentialDevi
   private function DeleteUsers( $arUsernames )
   public function DeleteOneUser( $szOneUser )
   public function ImportProvisioningFile( $szCSVFilePath )
+```
+
+####Class Xenmobile_RESTWS_Netscaler inherited from Class Xenmobile_RESTWS_Authentication
+```php
+  public function __construct($szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
+  public function __destruct()
+  public function listConfigurations()
 ```
