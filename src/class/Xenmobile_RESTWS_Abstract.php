@@ -141,7 +141,7 @@ abstract class Xenmobile_RESTWS_Abstract
               || ( strcasecmp($httpMethod, 'PUT') == 0 )
               || ( strcasecmp($httpMethod, 'DELETE') == 0 ) ) //HTTP POST expected
     {
-      $this->log($szURL, __METHOD__ . ' Requested Url (POST)');
+      $this->log($szURL, __METHOD__ . ' Requested Url ('. strtoupper($httpMethod) .')');
 
       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, strtoupper($httpMethod));
       if (isset($arParams) && !is_null($arParams) && is_array($arParams))
