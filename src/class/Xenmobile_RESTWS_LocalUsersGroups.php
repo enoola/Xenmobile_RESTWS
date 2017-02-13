@@ -24,6 +24,8 @@ class Xenmobile_RESTWS_LocalUsersGroups extends Xenmobile_RESTWS_Authentication
   public function __destruct()
   {
     $this->log('in', __METHOD__);
+    if ($this->getAuthToken() != null)
+      $this->logout();
     parent::__destruct();
   }
 
@@ -194,11 +196,13 @@ class Xenmobile_RESTWS_LocalUsersGroups extends Xenmobile_RESTWS_Authentication
   *
   * @return mixed see _handleResponser
   */
-  private function DeleteUsers( $arUsernames )
+  public function DeleteUsers( $arUsernames )
   {
     $this->log(__METHOD__);
 
-    $this->_doRequest('resetpassword', null, $arUsernames, 'DELETE');
+    $strQuery = '{ "'.implode('" "', $arUsernames).'" }';
+
+    $this->_doRequest('resetpassword', null, $strQuery, 'DELETE');
 
     return ($this->_handleResponse());
   }
@@ -215,6 +219,7 @@ class Xenmobile_RESTWS_LocalUsersGroups extends Xenmobile_RESTWS_Authentication
   {
     $this->log(__METHOD__);
 
+    //$strQuery = '{ "'.$szOneUser.'" }';
     $this->_doRequest($szOneUser,null, null, 'DELETE');
 
     return ($this->_handleResponse());

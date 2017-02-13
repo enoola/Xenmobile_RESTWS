@@ -120,20 +120,6 @@ class Xenmobile_RESTWS_DeviceTest extends UnitTestCase
     $this->_oCliXM_WS->GetDeviceInformationByID( self::DEVICE_ID );
     $deviceToken = $this->_oCliXM_WS->getLastRequestResult()->device->deviceToken;
     $this->_oCliXM_WS->SendPushNotificationToAListOfDevice(self::DEVICE_ID, $deviceToken, 'a notification.');
-
-    //$this->_oCliXM_WS->SendNotificationToAListOfDevice(array (self::DEVICE_ID),
-    //                                                      'un message comme un autre.');
-
-    //$this->_oCliXM_WS->GetDeviceInformationByID(self::DEVICE_ID);
-    //$deviceToken = $this->_oCliXM_WS->getLastRequestResult()->device->deviceToken;
-    //$this->_oCliXM_WS->SendPushNotificationToAListOfDevice(self::DEVICE_ID, $deviceToken, 'a notification.');
-    //print_r( $this->_oCliXM_WS->getLastRequestResult() );
-    //$this->assertTrue( property_exists($this->_oCliXM_WS->getLastRequestResult(), 'notificationRequests' ) );
-    //$this->assertNotNull( $this->_oCliXM_WS->getLastRequestResult()->notificationRequests );
-    //$this->assertTrue( property_exists($this->_oCliXM_WS->getLastRequestResult()->notificationRequests, 'smsNotifRequestId' ) );
-    //$this->assertNotNull( $this->_oCliXM_WS->getLastRequestResult()->notificationRequests->smsNotifRequestId );
-
-    //$this->assertTrue( ($this->_oCliXM_WS->getLastRequestResult()->notificationRequests->smsNotifRequestId > 0) );
   }
 
   function testGetAllKnownPropertiesOnADevice()
