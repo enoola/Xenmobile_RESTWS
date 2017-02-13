@@ -518,14 +518,20 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   * I don't know how to implement it YET
   *
   */
-  private function SendNotificationToAListOfDevice( $nDeviceID, $szMessage )
+  public function SendPushNotificationToAListOfDevice( $nDeviceID, $szDeviceToken, $szMessage, $szDeviceType = 'Android' )
   {
     $this->log(__METHOD__);
+
+    $arShtp = array ('value' => $szDeviceToken);
+    $arShtp['type'] = 'apns';
+    if (strcmp('Android', $szDeviceType ) == 0)
+      $arShtp['type'] = 'shtp';
+
     $arQueryNotification = array (
       'to'          => array ( array(
                               'deviceId' => $nDeviceID ,
-                              'osFamily'      => 'Android', //==> GET BUGGY When using this (for mail and SMS)
-                              'token' => array ('type'=>'shtp')
+                              //'osFamily'      => $szDeviceType, //==> GET BUGGY When using this (for mail and SMS and Notification)
+                              'token' => $arShtp
                         ) ),
       'smtp'        => 'false',
       'sms'         => 'false',

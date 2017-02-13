@@ -129,6 +129,7 @@
   public function SendNotificationToAListOfDevicesOrUsers( $arQuery )
   public function SendMailToAListOfUserMail( $szFrom, $arMailRecipient, $szSubject, $szBody, $bSendAsBCC )
   public function SendSMSToAListOfPhoneNumbers( $arNumberToSMS, $szMessage )
+  public function SendPushNotificationToALisOfDevice( $nDeviceID, $szToken, $szMessage, $szDeviceType=Android)
   public function GetAllKnownPropertiesOnADevice( $nID )
   public function GetAllUsedPropertiesOnADevice( $nID )
   public function GetAllDevicePropertiesByDeviceID( $nDeviceID )
