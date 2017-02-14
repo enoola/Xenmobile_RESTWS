@@ -10,7 +10,7 @@ require_once('./class/Xenmobile_RESTWS_LocalUsersGroups.php');
 
 class Xenmobile_RESTWS_LocalUsersGroupsTest extends UnitTestCase
 {
-  const ONE_EXISTING_USERNAME = 'user1';
+  const ONE_TEST_USERNAME = 'MyTestUser1';
   protected $_oCliXM_WS = null;
 
   function setUp()
@@ -36,22 +36,9 @@ class Xenmobile_RESTWS_LocalUsersGroupsTest extends UnitTestCase
     $this->assertTrue(is_array( $this->_oCliXM_WS->getLastRequestResult()->result) );
   }
 
-  function testGetOneLocalUser()
-  {
-    $this->_oCliXM_WS->GetOneLocalUser(self::ONE_EXISTING_USERNAME);
-
-    $this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult(), 'status'));
-    $this->assertIdentical($this->_oCliXM_WS->getLastRequestResult()->status, 0);
-
-    $this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult(), 'result'));
-    $this->assertTrue(is_object( $this->_oCliXM_WS->getLastRequestResult()->result) );
-    $this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult()->result, 'username'));
-    $this->assertIdentical( $this->_oCliXM_WS->getLastRequestResult()->result->username, self::ONE_EXISTING_USERNAME );
-  }
-
   function testAddOneLocalUser()
   {
-    $this->_oCliXM_WS->AddOneLocalUser_Easy('newuser1','apassword');
+    $this->_oCliXM_WS->AddOneLocalUser_Easy(self::ONE_TEST_USERNAME, 'apassword', 'USER');
 
     //print_r($this->_oCliXM_WS->getLastJsonRequest());
     //print_r($this->_oCliXM_WS->getLastRequestResult());
@@ -62,7 +49,7 @@ class Xenmobile_RESTWS_LocalUsersGroupsTest extends UnitTestCase
     $this->assertTrue(is_object( $this->_oCliXM_WS->getLastRequestResult()->user ));
 
     $this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult()->user, 'username'));
-    $this->assertIdentical($this->_oCliXM_WS->getLastRequestResult()->user->username, 'newuser1');
+    $this->assertIdentical($this->_oCliXM_WS->getLastRequestResult()->user->username, self::ONE_TEST_USERNAME);
 
     $this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult()->user, 'password'));
     $this->assertIdentical( $this->_oCliXM_WS->getLastRequestResult()->user->password, 'apassword');
@@ -71,11 +58,34 @@ class Xenmobile_RESTWS_LocalUsersGroupsTest extends UnitTestCase
     //$this->assertTrue(is_object( $this->_oCliXM_WS->getLastRequestResult()->result) );
   }
 
-  function _testUpdateOneLocalUser()
+  function testGetOneLocalUser()
   {
-    $this->_oCliXM_WS->UpdateOneLocalUser_Easy('newuser1',null,'ADMIN');
+    $this->_oCliXM_WS->GetOneLocalUser( self::ONE_TEST_USERNAME );
 
-    //print_r($this->_oCliXM_WS->getLastJsonRequest());
+    $this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult(), 'status'));
+    $this->assertIdentical($this->_oCliXM_WS->getLastRequestResult()->status, 0);
+
+    $this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult(), 'result'));
+    $this->assertTrue(is_object( $this->_oCliXM_WS->getLastRequestResult()->result) );
+    $this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult()->result, 'username'));
+    $this->assertIdentical( $this->_oCliXM_WS->getLastRequestResult()->result->username, self::ONE_TEST_USERNAME );
+  }
+
+
+  function testUpdateOneLocalUser()
+  {
+    //$this->_oCliXM_WS->UpdateOneLocalUser_Easy(self::ONE_TEST_USERNAME, null, 'ADMIN');
+
+    $arInfos = array('username' => self::ONE_TEST_USERNAME,
+                    'password' => '',
+                    'role'=> 'USER',
+                    'groups'=>array(),
+                    'attributes'=> new \StdClass
+              );
+
+    $this->_oCliXM_WS->UpdateOneLocalUser( $arInfos );
+
+    print_r($this->_oCliXM_WS->getLastJsonRequest());
     print_r($this->_oCliXM_WS->getLastRequestResult());
 
     //$this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult(), 'status'));
@@ -91,7 +101,7 @@ class Xenmobile_RESTWS_LocalUsersGroupsTest extends UnitTestCase
   function testDeleteOneLocalUser()
   {
     //$this->_oCliXM_WS->DeleteUsers(array('newuser1') );
-    $this->_oCliXM_WS->DeleteOneUser('newuser1');
+    $this->_oCliXM_WS->DeleteOneUser(self::ONE_TEST_USERNAME);
 
     $this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult(), 'status'));
     $this->assertIdentical($this->_oCliXM_WS->getLastRequestResult()->status, 0);
@@ -128,8 +138,8 @@ class Xenmobile_RESTWS_LocalUsersGroupsTest extends UnitTestCase
 
     $this->assertPattern( '/Xenmobile_RESTWS_LocalUsersGroups/', get_class($this->_oCliXM_WS), 'nom de classe ok' );
     $this->assertIsA($this->_oCliXM_WS, 'enoola_Citrix_Client\Xenmobile_RESTWS_LocalUsersGroups');
-    return ( $this->_oCliXM_WS->login($arConfig['username'], $arConfig['password'] ) );
 
+    return ( $this->_oCliXM_WS->login($arConfig['username'], $arConfig['password'] ) );
   }
 
 }

@@ -1,7 +1,7 @@
 <?Php
 namespace enoola_Citrix_Client;
 require_once('./class/Xenmobile_RESTWS_Exception.php');
-require_once('./class/Xenmobile_RESTWS_LocalUsersGroups.php');
+require_once('./class/Xenmobile_RESTWS_LocalUsers.php');
 
 /*
 *
@@ -24,7 +24,7 @@ if ($arConfig === false)
 if ( (!array_key_exists('fqdn', $arConfig) ) || (!array_key_exists('username', $arConfig) ) || (!array_key_exists('password', $arConfig) ) )
   die ('Missing one or more mandatory field (fqdn, username, password).'.PHP_EOL);
 
-$oCliXM_WS = new Xenmobile_RESTWS_LocalUsersGroups( $arConfig['fqdn'], 4443, 'https',false );
+$oCliXM_WS = new Xenmobile_RESTWS_LocalUsers( $arConfig['fqdn'], 4443, 'https',false );
 
 if ( $oCliXM_WS->login($arConfig['username'], $arConfig['password'] ) == false )
 {

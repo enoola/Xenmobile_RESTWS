@@ -135,6 +135,7 @@ abstract class Xenmobile_RESTWS_Abstract
     {
       if (isset($arParams) && !is_null($arParams) && is_array($arParams) && (count($arParams) > 0))
         $szURL .= '?' . http_build_query($arParams);
+
       $this->log($szURL, 'Requested Url (GET)');
     }
     elseif ( ( strcasecmp($httpMethod, 'post') == 0 )

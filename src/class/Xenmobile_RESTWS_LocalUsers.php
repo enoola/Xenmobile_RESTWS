@@ -243,5 +243,12 @@ class Xenmobile_RESTWS_LocalUsersGroups extends Xenmobile_RESTWS_Authentication
     return ($this->_handleResponse());
   }
 
+  /*
+   * =========== GROUPS ======================
+  */
+
+
+
+
 }
 ?>
