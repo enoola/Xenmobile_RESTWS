@@ -26,7 +26,7 @@ PhP >= 5.6
    regarding your instance
 - 4) Place yourself in src/ folder
 - 5) Run Simple test by typing
-  $php ./tests/TestsLauncher.php
+  - php ./tests/TestsLauncher.php
 
 
 ##Usage Example
