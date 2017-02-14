@@ -19,13 +19,13 @@ PhP >= 5.6
 
 ##If you intend to run tests :)
 ###Before using or running
-1) Do the usual 'git clone'
-2) unzip simpletest_v1.1.0.zip to simpletest_v1
-3) Create a file in the root folder name config_file.ini
+- 1) Do the usual 'git clone'
+- 2) unzip simpletest_v1.1.0.zip to simpletest_v1
+- 3) Create a file in the root folder name config_file.ini
    make it looks like ./tests/badfqdn_config_file.ini with the fields
    regarding your instance
-4) Place yourself in src/ folder
-5) Run Simple test by typing
+- 4) Place yourself in src/ folder
+- 5) Run Simple test by typing
   $php ./tests/TestsLauncher.php
 
 
