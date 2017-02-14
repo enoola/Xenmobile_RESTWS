@@ -40,10 +40,10 @@ class Xenmobile_RESTWS_AuthenticationTest extends UnitTestCase
 
   function testLoggingWithBadFQDN()
   {
-    $bRet = $this->_logIn('badfqdn_config_file.ini');
+    $bRet = $this->_logIn('./tests/badfqdn_config_file.ini');
     $this->assertEqual($this->_oCliXM_WS->getAuthToken(),'');
 
-    $ini = parse_ini_file('badfqdn_config_file.ini');
+    $ini = parse_ini_file('./tests/badfqdn_config_file.ini');
     $this->assertIdentical($this->_oCliXM_WS->getUsername(), $ini['username']);
 
     $this->_oCliXM_WS = null;
@@ -51,10 +51,10 @@ class Xenmobile_RESTWS_AuthenticationTest extends UnitTestCase
 
   function testLoggingWithBadUsername()
   {
-    $bRet = $this->_logIn('badusername_config_file.ini');
+    $bRet = $this->_logIn('./tests/badusername_config_file.ini');
     $this->assertEqual($this->_oCliXM_WS->getAuthToken(),'');
 
-    $ini = parse_ini_file('badusername_config_file.ini');
+    $ini = parse_ini_file('./tests/badusername_config_file.ini');
     $this->assertIdentical($this->_oCliXM_WS->getUsername(), $ini['username']);
 
     $this->_oCliXM_WS = null;
