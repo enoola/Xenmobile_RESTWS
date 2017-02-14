@@ -1,14 +1,14 @@
 <?php
 /*
  *
- * We will test out LocalUsersGroups class
+ * We will test out LocalUsers class
  *
  */
 // use \enoola_Citrix_Client;
 require_once('./extlibs/simpletest/autorun.php');
-require_once('./class/Xenmobile_RESTWS_LocalUsersGroups.php');
+require_once('./class/Xenmobile_RESTWS_LocalUsers.php');
 
-class Xenmobile_RESTWS_LocalUsersGroupsTest extends UnitTestCase
+class Xenmobile_RESTWS_LocalUsersTest extends UnitTestCase
 {
   const ONE_TEST_USERNAME = 'MyTestUser1';
   protected $_oCliXM_WS = null;
@@ -85,17 +85,17 @@ class Xenmobile_RESTWS_LocalUsersGroupsTest extends UnitTestCase
 
     $this->_oCliXM_WS->UpdateOneLocalUser( $arInfos );
 
-    print_r($this->_oCliXM_WS->getLastJsonRequest());
-    print_r($this->_oCliXM_WS->getLastRequestResult());
+//    print_r($this->_oCliXM_WS->getLastJsonRequest());
+//    print_r($this->_oCliXM_WS->getLastRequestResult());
 
-    //$this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult(), 'status'));
-    //$this->assertIdentical($this->_oCliXM_WS->getLastRequestResult()->status, 0);
+    $this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult(), 'status'));
+    $this->assertIdentical($this->_oCliXM_WS->getLastRequestResult()->status, 0);
 
-    //$this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult(), 'user'));
-    //$this->assertTrue(is_object( $this->_oCliXM_WS->getLastRequestResult()->user ));
+    $this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult(), 'user'));
+    $this->assertTrue(is_object( $this->_oCliXM_WS->getLastRequestResult()->user ));
 
-    //$this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult()->user, 'username'));
-    //$this->assertIdentical($this->_oCliXM_WS->getLastRequestResult()->user->username, 'newuser1');
+    $this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult()->user, 'username'));
+    $this->assertTrue(strcmp($this->_oCliXM_WS->getLastRequestResult()->user->username, self::ONE_TEST_USERNAME) == 0);
   }
 
   function testDeleteOneLocalUser()
@@ -134,10 +134,10 @@ class Xenmobile_RESTWS_LocalUsersGroupsTest extends UnitTestCase
     if ( (!array_key_exists('fqdn', $arConfig) ) || (!array_key_exists('username', $arConfig) ) || (!array_key_exists('password', $arConfig) ) )
       die ('Missing one or more mandatory field (fqdn, username, password).'.PHP_EOL);
 
-    $this->_oCliXM_WS = new enoola_Citrix_Client\Xenmobile_RESTWS_LocalUsersGroups( $arConfig['fqdn'], 4443, 'https', false );
+    $this->_oCliXM_WS = new enoola_Citrix_Client\Xenmobile_RESTWS_LocalUsers( $arConfig['fqdn'], 4443, 'https', false );
 
-    $this->assertPattern( '/Xenmobile_RESTWS_LocalUsersGroups/', get_class($this->_oCliXM_WS), 'nom de classe ok' );
-    $this->assertIsA($this->_oCliXM_WS, 'enoola_Citrix_Client\Xenmobile_RESTWS_LocalUsersGroups');
+    $this->assertPattern( '/Xenmobile_RESTWS_LocalUsers/', get_class($this->_oCliXM_WS), 'nom de classe ok' );
+    $this->assertIsA($this->_oCliXM_WS, 'enoola_Citrix_Client\Xenmobile_RESTWS_LocalUsers');
 
     return ( $this->_oCliXM_WS->login($arConfig['username'], $arConfig['password'] ) );
   }

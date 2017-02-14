@@ -8,7 +8,7 @@ error_reporting(E_ALL);
 
 
 
-class Xenmobile_RESTWS_LocalUsersGroups extends Xenmobile_RESTWS_Authentication
+class Xenmobile_RESTWS_LocalUsers extends Xenmobile_RESTWS_Authentication
 {
   const SZ_WS_CLASSNAME = 'localusersgroups';
   protected $_arMethodMatrix = array();
