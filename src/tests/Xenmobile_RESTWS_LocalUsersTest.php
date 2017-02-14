@@ -4,7 +4,6 @@
  * We will test out LocalUsers class
  *
  */
-// use \enoola_Citrix_Client;
 require_once('./extlibs/simpletest/autorun.php');
 require_once('./class/Xenmobile_RESTWS_LocalUsers.php');
 
@@ -85,9 +84,6 @@ class Xenmobile_RESTWS_LocalUsersTest extends UnitTestCase
 
     $this->_oCliXM_WS->UpdateOneLocalUser( $arInfos );
 
-//    print_r($this->_oCliXM_WS->getLastJsonRequest());
-//    print_r($this->_oCliXM_WS->getLastRequestResult());
-
     $this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult(), 'status'));
     $this->assertIdentical($this->_oCliXM_WS->getLastRequestResult()->status, 0);
 
@@ -100,16 +96,11 @@ class Xenmobile_RESTWS_LocalUsersTest extends UnitTestCase
 
   function testDeleteOneLocalUser()
   {
-    //$this->_oCliXM_WS->DeleteUsers(array('newuser1') );
     $this->_oCliXM_WS->DeleteOneUser(self::ONE_TEST_USERNAME);
 
     $this->assertTrue(property_exists($this->_oCliXM_WS->getLastRequestResult(), 'status'));
     $this->assertIdentical($this->_oCliXM_WS->getLastRequestResult()->status, 0);
-
   }
-
-
-
 
 
 /*

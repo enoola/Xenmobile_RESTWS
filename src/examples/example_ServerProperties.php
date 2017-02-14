@@ -33,8 +33,22 @@ if ( $oCliXM_WS->login($arConfig['username'], $arConfig['password'] ) == false )
 }
 echo 'result :' .PHP_EOL;
 
-//print_r( $oCliXM_WS->GetAllServerProperties() );
+/*
+* We display ldap properties
+*/
 
+//print_r( $oCliXM_WS->GetServerPropertiesByFilter_Easy('ldap') );
+//print_r( $oCliXM_WS->GetAllServerProperties() );
+echo sprintf('------------------------------------------------------'."\n");
+echo sprintf("%'. 3s | %-30.30s | %-5.5s | %-5.5s |\n", 'ID', 'Display Name', 'Name', 'Value');
+echo sprintf('------------------------------------------------------'."\n");
+$arResult = $oCliXM_WS->GetServerPropertiesByFilter_Easy('ldap')->allEwProperties;
+
+foreach( $arResult as $key => $oValue )
+{
+  echo sprintf("%'. 3d | %-30.30s | %-5.5s | %-5.5s |\n", $oValue->id, $oValue->displayName, $oValue->name, $oValue->value);
+  echo sprintf('----+--------------------------------+-------+-------|'."\n");
+}
 //print_r($oCliXM_WS->AddServerProperty_Easy('myserverprop','myvalueof','My Server Prop','My description'));
 
 //print_r( $oCliXM_WS->ResetServerProperties(array('myserverprop')) );
