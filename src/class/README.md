@@ -70,7 +70,7 @@
         - DeleteServerProperties(ar_names)
         - ResetServerProperties(ar_names)
 
-      - Xenmobile_RESTWS_LocalUsersGroups : /localusersgroups
+      - Xenmobile_RESTWS_LocalUsers : /localusersgroups
         - GetAllLocalUsers
         - GetOneLocalUser
         - AddOneLocalUser
@@ -80,6 +80,12 @@
         - ChangeUserPassword
         - DeleteOneUser
         - ImportProvisioningFile
+      - Xenmobile_RESTWS_LocalGroups : /localusersgroups
+        - GetAllLocalGroups
+        - SearchLocalGroupByName
+        - AddLocalGroup
+        - DeleteLocalGroup
+
       - Xenmobile_RESTWS_Netscaler : /netscaler
         - listConfigurations
 
@@ -184,7 +190,7 @@ Xenmobile_RESTWS_Device::WipeTheSDCardsOnAListOfDevices( $arSequentialDeviceIDs 
 Xenmobile_RESTWS_Device::CancelWipeTheSDCardsOnAListOfDevices( $arSequentialDeviceIDs ); //'sdcardwipe', 'cancel' );
 ```
 
-####Class Xenmobile_RESTWS_LocalUsersGroups inherited from Class Xenmobile_RESTWS_Authentication
+####Class Xenmobile_RESTWS_LocalUsers inherited from Class Xenmobile_RESTWS_Authentication
 ```php
   public function __construct($szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
   public function __destruct()
@@ -200,6 +206,16 @@ Xenmobile_RESTWS_Device::CancelWipeTheSDCardsOnAListOfDevices( $arSequentialDevi
   private function DeleteUsers( $arUsernames )
   public function DeleteOneUser( $szOneUser )
   public function ImportProvisioningFile( $szCSVFilePath )
+```
+
+####Class Xenmobile_RESTWS_LocalGroups inherited from Class Xenmobile_RESTWS_Authentication
+```php
+  public function __construct($szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
+  public function __destruct()
+  public function GetAllLocalGroups()
+  public function SearchLocalGroupByName( $szGroupName, $szDomain = 'local' )
+  public function AddLocalGroup( $szName, $szDomain = 'local' )
+  public function DeleteLocalGroup( $szName, $szDomain = 'local'   
 ```
 
 ####Class Xenmobile_RESTWS_Netscaler inherited from Class Xenmobile_RESTWS_Authentication
