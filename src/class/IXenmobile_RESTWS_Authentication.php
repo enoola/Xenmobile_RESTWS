@@ -3,8 +3,10 @@ namespace enoola_Citrix_Client;
 
 require_once('./class/Xenmobile_RESTWS_Exception.php');
 
-//require_once('./class/Xenmobile_RESTWS_Abstract.php');
-
+/**
+ * The interface representing Authentication
+ *
+ */
 interface IXenmobile_RESTWS_Authentication
 {
   public function login($szUsername, $szPassword);

@@ -46,8 +46,6 @@ error_reporting(E_ALL);
  * @method mixed CancelWipeTheSDCardsOnAListOfDevices(array $arSequentialID)
  *
  */
-
-
 class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
 {
   const SZ_WS_CLASSNAME = 'device';
@@ -56,7 +54,16 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   protected $_arMethodMatrix = array(
     array('AuthorizeAListOfDevices','authorize') );
 
-
+  /**
+   * Constructor to define fqdn ports ...
+   *
+   * @param string $szFQDN FQDN of the server (xenmobile.contoso.com)
+   * @param int $nPort Port to access the server Xenmobile_RESTWS_Abstract::PORT_DEFAULT_HTTPS (4443)
+   * @param string $szProtocol https or https Xenmobile_RESTWS_Abstract::PROTOCOL_HTTPS (https)
+   * @param boolean $bVerifySSL shall we verify https certificate (false)
+   *
+   * @return void
+   */
   public function __construct($szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
   {
     $this->log('in', __METHOD__);
@@ -79,16 +86,16 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     $this->_addVirtualMethod( 'CancelLocateAListOfDevices', 'locate', 'cancel' );
     $this->_addVirtualMethod( 'ApplyGPSTrackingOnAListOfDevices', 'track' );
     $this->_addVirtualMethod( 'CancelGPSTrackingOnAListOfDevices', 'track', 'cancel');
-    /*
+    /**
     * Lock a List of Devices
     *
     * @param array arSequentialID
     * @return mixed
     * @notes : from citrix doc we need those in the query
-          dstName – destination name, as either destination name or destination device ID
-          dstDevId – MAC address for destination device, as either destination name or destination device ID
-          scanTime – number of seconds to scan
-          screenSharingPwd – password for screen sharing
+    *      dstName – destination name, as either destination name or destination device ID
+    *      dstDevId – MAC address for destination device, as either destination name or destination device ID
+    *      scanTime – number of seconds to scan
+    *      screenSharingPwd – password for screen sharing
     * need to be tested
     */
     $this->_addVirtualMethod( 'LockAListOfDevices', 'lock' );
@@ -119,17 +126,13 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     parent::__destruct();
   }
 
-/******** ADD ********/
-  /* Begin implementation
-   * xenmobile/api/v1/device/filter
-   */
 
-  /*
-   * GetDeviceByFilters,
+  /**
+   * Get device By Filters
    *
-   * @param array() arQuery ['start'=>0-999, 'limit'=>0-999, "sortOrder":"ASC,DESC,DSC","sortColumn":"ID,SERIAL,IMEI...","enableCount":"false]
+   * @param array arQuery ['start'=>0-999, 'limit'=>0-999, "sortOrder":"ASC,DESC,DSC","sortColumn":"ID,SERIAL,IMEI...","enableCount":"false]
    *
-   * @return objStdClass() arQuery : {(int)status,(string)message,(objStdClass)currentFilter->(array)detail}
+   * @return StdClass arQuery  {(int)status,(string)message,(objStdClass)currentFilter->(array)detail}
    *
    * @note : https://docs.citrix.com/en-us/xenmobile/10-3/xenmobile-rest-api-reference-main.html
    */
@@ -161,13 +164,14 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult()->message, $this->getLastRequestResult()->status );
   }
 
-  /*
-   * GetDeviceByFilters_EasySearch
+  /**
+   * Get Device by Filters made easy
    *
    * @param string szSearch
    * @param int nLimit
    * @param array arFilterIds
-   * @return objStdClass() arQuery : {(int)status,(string)message,(objStdClass)currentFilter->(array)detail}
+   *
+   * @return StdClass arQuery {(int)status,(string)message,(objStdClass)currentFilter->(array)detail}
    */
   public function GetDeviceByFilters_EasySearch( $szSearch, $arFilterIds = null, $nLimit = 9 )
   {
@@ -182,10 +186,10 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     return ( self::GetDeviceByFilters($arQuery) );
   }
 
-  /*
-   * GetAvailableFilterIds,
+  /**
+   * Get available filterIds,
    *
-   * @return (array)ar[nodename][]->(string)displayName
+   * @return array ar[nodename][]->(string)displayName
    *                              ->(array)arFilters[]->(string)displayName
    *                                                  ->(string)name
    */
@@ -219,20 +223,12 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     return ( null );
   }
 
-  /* End implementation
-  * xenmobile/api/v1/device/filter
-   */
-
-   /* Begin implementation Get Device information by ID
-    * xenmobile/api/v1/device/{device_id}
-    */
-  /*
-   * GetDeviceInformationByID,
+  /**
+   * Get Device Information by ID,
    *
    * @params deviceID
-   * @return (array)ar[nodename][]->(string)displayName
-   *                              ->(array)arFilters[]->(string)displayName
-   *                                                  ->(string)name
+   *
+   * @return mixed see _handleResponse()
    */
   public function GetDeviceInformationByID( $nDeviceID )
   {
@@ -242,15 +238,10 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
 
     return ( $this->_handleResponse() );
   }
-  /* End implementation Get Device information by ID
-   * xenmobile/api/v1/device/{device_id}
-  */
 
-
-
-  /*
+  /**
    * Display available filters,
-   * show what value are authrorized in search field 'filterIds'
+   * show what value are authrorized in search field 'filterIds' ;)
    *
    * @return void
   */
@@ -275,36 +266,36 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     return (null) ;
   }
 
-  /*
+  /**
    * Get device apps by device ID,
    *
    * @param int[0-999] nDevice
    *
-   * @return StdClassname application[]->(string)name, status,...
+   * @return mixed application[]->(string)name, status,...
    */
    public function GetAppsByDeviceID( $nDeviceID )
    {
      return ( $this->_getInformationByDeviceID('apps', $nDeviceID) );
    }
 
-   /*
+   /**
     * Get device actions by device ID,
     *
     * @param int[0-999] nDevice
     *
-    * @return StdClassname actions[]->(string)ressourceType, ressourceTypeLabel,...
+    * @return StdClass actions[]->(string)ressourceType, ressourceTypeLabel,...
     */
     public function GetActionsByDeviceID( $nDeviceID )
     {
       return ( $this->_getInformationByDeviceID('actions', $nDeviceID) );
     }
 
-    /*
+    /**
      * Get device delivery groups by device ID,
      *
      * @param int[0-999] nDevice
      *
-     * @return StdClassname deliveryGroups[]->(string)statuslabel, linkey, status,...
+     * @return StdClass deliveryGroups[]->(string)statuslabel, linkey, status,...
      */
      public function GetDeliveryGroupsByDeviceID( $nDeviceID )
      {
@@ -312,12 +303,12 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
      }
 
 
-    /*
+    /**
      * Get device Managed Software Inventory by device ID,
      *
      * @param int[0-999] nDevice
      *
-     * @return StdClassname softwareInventory[]->(string)version, blacklistCompliant, suggestedListCompliant,...
+     * @return StdClass softwareInventory[]->(string)version, blacklistCompliant, suggestedListCompliant,...
      */
      public function GetManagedSoftwareInventoryByDeviceID( $nDeviceID )
      {
@@ -325,12 +316,12 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
      }
 
 
-    /*
+    /**
      * Get device Policies by Device ID,
      *
      * @param int[0-999] nDevice
      *
-     * @return StdClassname policies[]->(string)version, ressourceType, ressourceTypeLabel,...
+     * @return StdClass policies[]->(string)version, ressourceType, ressourceTypeLabel,...
      */
      public function GetPoliciesByDeviceID( $nDeviceID )
      {
@@ -338,24 +329,24 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
      }
 
 
-     /*
+     /**
       * Get device Software Inventory by device ID,
       *
       * @param int[0-999] nDevice
       *
-      * @return StdClassname softwareInventory[]->(string)version, blacklistCompliant, suggestedListCompliant,...
+      * @return StdClass softwareInventory[]->(string)version, blacklistCompliant, suggestedListCompliant,...
       */
       public function GetSoftwareInventoryByDeviceID( $nDeviceID )
       {
         return ( $this->_getInformationByDeviceID('softwareinventory', $nDeviceID) );
       }
 
-    /*
+    /**
      * Get device Software Inventory by device ID,
      *
      * @param int[0-999] nDevice
      *
-     * @return StdClassname softwareInventory[]->(string)version, blacklistCompliant, suggestedListCompliant,...
+     * @return StdClass softwareInventory[]->(string)version, blacklistCompliant, suggestedListCompliant,...
      */
      public function GetGPSCoordinateByDeviceID( $nDeviceID )
      {
@@ -363,8 +354,8 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
      }
 
 
-   /*
-    * _getAvailableFilterIds,
+   /**
+    * internal get information by device id,
     * made to ease implementation of different methods Get***ByDeviceID()
     *
     * @param string szMethod
@@ -372,7 +363,6 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     * @return (StdClass|null)
     *
     */
-   //private function _getInformationByDeviceID( $szSeekedInformation, $nDeviceID )
    private function _getInformationByDeviceID( $szPath, $szMethod )
    {
      $this->log(__METHOD__);
@@ -393,42 +383,39 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
      return ($this->_handleResponse());
    }
 
-/******** ADD ********/
-
-  /*
+  /**
   * Send a notification to a list of devices or users
   *
-  * @param
-  */
-
-  /*
-  {
-    "smtpFrom": "Test",
-    "to": [
-      {
-        "deviceId": "1",
-        "email": "user@test.com",
-        "osFamily": "iOS",
-        "serialNumber": "F7NLX6WDF196",
-        "smsTo": "+123456676",
-        "token": {
-          "type": "apns",
-          "value": "dfb2fb351a4fb068e40858ecad572e317e6c39b4fa7de6fb29ea1ad7e2254499"
-        }
-      }
-    ],
-    "smtpSubject": "This is test subject",
-    "smtpMessage": "This is test message",
-    "smsMessage": "This is test message",
-    "agentMessage": "This is test message",
-    "sendAsBCC": "true",
-    "smtp": "true",
-    "sms": "true",
-    "agent": "true",
-    "templateId": "-1",
-    "agentCustomProps": {
-      "sound": "Casino.wav"
-    }
+  * @param array $arQuery an array containing a representation of the query body
+  *
+  * @example
+  *{
+  *  "smtpFrom": "Test",
+  *  "to": [
+  *    {
+  *      "deviceId": "1",
+  *      "email": "user@test.com",
+  *      "osFamily": "iOS",
+  *      "serialNumber": "F7NLX6WDF196",
+  *      "smsTo": "+123456676",
+  *      "token": {
+  *        "type": "apns",
+  *        "value": "dfb2fb351a4fb068e40858ecad572e317e6c39b4fa7de6fb29ea1ad7e2254499"
+  *      }
+  *    }
+  *  ],
+  *  "smtpSubject": "This is test subject",
+  *  "smtpMessage": "This is test message",
+  *  "smsMessage": "This is test message",
+  *  "agentMessage": "This is test message",
+  *  "sendAsBCC": "true",
+  *  "smtp": "true",
+  *  "sms": "true",
+  *  "agent": "true",
+  *  "templateId": "-1",
+  *  "agentCustomProps": {
+  *    "sound": "Casino.wav"
+  *  }
   */
   public function SendNotificationToAListOfDevicesOrUsers( $arQuery )
   {
@@ -442,10 +429,10 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
 
 
 
-  /*
+  /**
   * Send a Mail notification to a list of users mail
-  *
   * Extra function
+  *
   * @param string szFrom : From content
   * @param array arMailRecipient
   * @param string szSubject
@@ -479,23 +466,25 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     return ($this->_handleResponse());
   }
 
-  /*
+  /**
   * Send a SMS notification ausers (Simplified method)
   * Query are weird if I only put a device ID it won't send it
   * I need to put the number too
-  *
   * Extra function
-  * @param array arNumberToSMS
-  * @param string szMessage
+  *
+  * @param array $arNumbersToSMS sequential array containing IDs
+  * @param string $szMessage unique message to send to all numbers
+  *
+  * @return mixed _handleResponse()
   */
-  public function SendSMSToAListOfPhoneNumbers( $arNumberToSMS, $szMessage )
+  public function SendSMSToAListOfPhoneNumbers( $arNumbersToSMS, $szMessage )
   {
     $this->log(__METHOD__);
-    if ( !is_array( $arNumberToSMS ) )
+    if ( !is_array( $arNumbersToSMS ) )
            throw new Xenmobile_RESTWS_Exception( 'Bad argument' );
 
     $arSMSTo = array();
-    foreach ($arNumberToSMS as $oneNumber)
+    foreach ($arNumbersToSMS as $oneNumber)
     {
       $arSMSTo[] = array('smsTo' => $oneNumber);
     }
@@ -513,10 +502,16 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   }
 
 
-  /*
-  * Shall send a notification to a list of device
+  /**
+  * Sends a Push notification to a list of device
   * I don't know how to implement it YET
   *
+  * @param integer $nDeviceID id of the device to send the push notification to
+  * @param string $szDeviceToken token of the device to send to
+  * @param string $szMessage message to send
+  * @param string $szDeviceType type (Could be Android, iOS, MaxOSX ....)
+  *
+  * @return mixed see _handleResponse()
   */
   public function SendPushNotificationToAListOfDevice( $nDeviceID, $szDeviceToken, $szMessage, $szDeviceType = 'Android' )
   {
@@ -543,10 +538,12 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     return ($this->_handleResponse());
   }
 
-  /*
-   * Get all properties of a device
+  /**
+   * Get all know properties of a device
    *
-   * @param int nID
+   * @param integer $nID device id we want properties from
+   *
+   * @return mixed see _handleResponse()
    */
   public function GetAllKnownPropertiesOnADevice( $nID )
   {
@@ -556,6 +553,14 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
 
     return ( $this->_handleResponse() );
   }
+
+  /**
+   * Get all used properties of a device
+   *
+   * @param integer $nID device id we want properties from
+   *
+   * @return mixed see _handleResponse()
+   */
 
   public function GetAllUsedPropertiesOnADevice( $nID )
   {
@@ -568,7 +573,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
 
 
 
-  /*
+  /**
   * Get All Device Properties by Device ID
   *
   * @param string szFrom : From content
@@ -584,7 +589,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     return ( $this->_handleResponse() );
   }
 
-  /*
+  /**
   * Update All Device Properties by Device ID
   * /!\ Be carefull it updates ALL (so remind to get properties then modify
   *     then put them all back ...)
@@ -604,7 +609,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     return ( $this->_handleResponse() );
   }
 
-  /*
+  /**
   * Add or Update a Device Property by Device ID
   * /!\ Not Working
   *
@@ -624,7 +629,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     return ( $this->_handleResponse() );
   }
 
-  /*
+  /**
   * Add or Update a Device Property by Device ID
   * Extra Method /!\ Not Working
   *
@@ -648,7 +653,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   }
 
 
-  /*
+  /**
   * Delete a Device Property by Device ID
   * /!\ Not working
   *
@@ -669,7 +674,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     return ( $this->_handleResponse() );
   }
 
-  /*
+  /**
   * Get iOS Device MDM Status by Device ID
   *
   * @notes unable to make it work with XM 10.3x return 500 jsoncode : 1000
@@ -688,7 +693,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     return ( $this->_handleResponse() );
   }
 
-  /*
+  /**
   * Generate Pin Code
   *
   * @notes Query Parameters: pinCodeLength – the length of the requested pin code
@@ -706,11 +711,10 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
     return ( $this->_handleResponse() );
   }
 
-  /*
-  * XM 10.4
-  * Get Device Last Location By Devic eID
+  /**
+  * Get Device Last Location By Device ID only with XM 10.4 I assume
   *
-  * @notes Query Parameters: pinCodeLength – the length of the requested pin code
+  * @todo Query Parameters: pinCodeLength – the length of the requested pin code
   *        unable to make it work with XM 10.3x return 500 jsoncode : 1000
   * @param int nDeviceID
   * @param array arProperties name, value
@@ -739,7 +743,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   }
 
 
-  /*
+  /**
   * Throw an exception if parameter is not an array
   *
   * @param array arSequentialID
@@ -754,7 +758,7 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
   }
 
 
-    /*
+    /**
     * handle response of Xenmobile
     *
     * @return mixed : return _oRequestLastReturn
@@ -785,10 +789,9 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
      throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult()->message, $this->getLastRequestResult()->status );
    }
 
-   /*
-    * implemented 'virtual methods here :)'
+   /**
+    * Implementation of 'virtual methods here :)'
     *
-    * @name
    */
    public function __call( $szName, $arAguments )
    {
@@ -802,8 +805,8 @@ class Xenmobile_RESTWS_Device extends Xenmobile_RESTWS_Authentication
                          $arAguments[0]));
    }
 
-   /*
-   * generic callback for all method only requiring an array of IDS as parameters
+   /**
+   * Generic callback for all method only requiring an array of IDS as parameters
    *
    * @param string szMethod webservice methodtocall
    * @param string szPath webservice urlpath completion

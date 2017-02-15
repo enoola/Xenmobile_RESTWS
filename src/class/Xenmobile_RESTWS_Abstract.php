@@ -1,13 +1,15 @@
 <?Php
+/**
+ * @author John PIGERET <github@mobilutils.com>
+ */
+
 namespace enoola_Citrix_Client;
 require_once('./class/Xenmobile_RESTWS_Exception.php');
 require_once('./class/IXenmobile_RESTWS_Authentication.php');
 
 
-
 /*
- * Purpose propose a php client for Citrix Xenmobile REST Webservice
- * below the abstract class
+ * The Abstract class being the one of the start point
  *
 */
 abstract class Xenmobile_RESTWS_Abstract
@@ -38,7 +40,7 @@ abstract class Xenmobile_RESTWS_Abstract
   private $_errorCodes = array();
 
   /**
-   * Setup API since this is a Abstract class we set constructor as
+   * Setup API since this is an Abstract class we set constructor as
    * protected for child to call it
    *
    * @param string $szClassName {certificates, licenses, ldap, netscaler, notificationserver,deliverygroups, user,localusergroups, groups, serverproperties,application..}
@@ -47,6 +49,7 @@ abstract class Xenmobile_RESTWS_Abstract
    * @param string $szProtocol
    * @param boolean $bVerifySSL
    *
+   * @return void
    */
   protected function __construct( $szClassName, $szFQDN, $nPort = self::PORT_DEFAULT_HTTPS, $szProtocol = self::PROTOCOL_HTTPS, $bVerifySSL = false)
   {
@@ -280,11 +283,13 @@ abstract class Xenmobile_RESTWS_Abstract
 
 
   /**
-   * Needs to be improved
+   * Display information on standard output 1 when _debug is set to true
    * Logs
-   *
+   * @todo needs to be improved with a dedicated object maybe ?
    * @param mixed $value
    * @param string $key
+   *
+   * @return void
    */
   protected function log($value, $key = null)
   {

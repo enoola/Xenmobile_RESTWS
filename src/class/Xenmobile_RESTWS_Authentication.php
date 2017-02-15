@@ -1,4 +1,8 @@
 <?Php
+/**
+ * @author John PIGERET <github@mobilutils.com>
+ */
+
 namespace enoola_Citrix_Client;
 
 require_once('./class/Xenmobile_RESTWS_Exception.php');
@@ -7,11 +11,7 @@ require_once('./class/IXenmobile_RESTWS_Authentication.php');
 
 /**
  * Use as a parent object to login.
- * can be use alone
- *
- * @method boolean login(string $szUsername, string $szPassword)
- * @method boolean cwclogin(string $szContext, string $szCustomerId,  string $szServiceKey)
- * @method boolean logout()
+ * can be used alone
  *
  */
 class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implements IXenmobile_RESTWS_Authentication
@@ -20,11 +20,21 @@ class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implemen
 
   private $_szUsername = null;
 
+  /**
+   * Constructor to define fqdn ports ...
+   *
+   * @param string $szFQDN FQDN of the server (xenmobile.contoso.com)
+   * @param int $nPort Port to access the server Xenmobile_RESTWS_Abstract::PORT_DEFAULT_HTTPS (4443)
+   * @param string $szProtocol https or https Xenmobile_RESTWS_Abstract::PROTOCOL_HTTPS (https)
+   * @param boolean $bVerifySSL shall we verify https certificate (false)
+   *
+   * @return void
+   */
   public function __construct( $szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
   {
     $this->log('in', __METHOD__);
     $this->log(self::SZ_WS_CLASSNAME, __METHOD__);
-    //parent::log( __CLASS__, "Construct");
+
     parent::log( "classname:".self::SZ_WS_CLASSNAME.', FQDN:'. $szFQDN.', Port:'.$nPort.', Protocol:'.$szProtocol.', verifySSL'.$bVerifySSL);
     parent::__construct( self::SZ_WS_CLASSNAME, $szFQDN, $nPort, $szProtocol, $bVerifySSL);
   }
@@ -43,7 +53,8 @@ class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implemen
    *
    * @param string $szUsername
    * @param string $szPassword
-   * @return bool true if connected false elswise
+   *
+   * @return bool true if connected false elsewise
    */
   public function login( $szUsername, $szPassword )
   {
@@ -62,7 +73,7 @@ class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implemen
    *
    * @param string $szContext
    * @param string $szCustomerId
-   * @return bool true if connected false elswise
+   * @return bool true if connected false otherwise
    */
 
   public function cwclogin($szContext, $szCustomerId, $szServiceKey)
@@ -81,7 +92,7 @@ class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implemen
   /**
    * Logout
    *
-   * @return bool true if disconnected false elswise
+   * @return bool true if disconnected false otherwise
    */
 
   public function logout()
@@ -114,10 +125,12 @@ class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implemen
   }
 
   /**
-   * Protected Login
+   * Protected Login method used by login and loginCWC
    *
    * @param string $szMethod (login, cwclogin)
-   * @param string $szPassword
+   * @param array $arParam provide post parameters
+   * @param array $arHeaders use to tweek headers
+   *
    * @return bool true if connected false elswise
    */
   protected function _login($szMethod, $arParams, $arHeaders = null)
@@ -158,7 +171,7 @@ class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implemen
   }
 
   /**
-   * set auth_token different data
+   * Protected Set auth_token different data
    *
    * @param string $szAuthToken : set token obtained when login
    * @return void
@@ -169,11 +182,21 @@ class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implemen
     return ;
   }
 
+  /**
+   * Get username used to login
+   *
+   * @return string username used to login
+   */
   public function getUsername()
   {
     return ( $this->_szUsername );
   }
 
+  /**
+   * Get authtoken obtained when login
+   *
+   * @return string username used to login
+   */
   public function getAuthToken()
   {
     $this->log('in',__METHOD__);
@@ -197,6 +220,11 @@ class Xenmobile_RESTWS_Authentication extends Xenmobile_RESTWS_Abstract implemen
     return ( $this->_szLastRequestCurlError );
   }
 
+  /**
+   * Get the last curl ressult
+   *
+   * @return mixed null or curl_result
+   */
   public function getLastRequestResult()
   {
     return ( $this->_oRequestLastReturn );

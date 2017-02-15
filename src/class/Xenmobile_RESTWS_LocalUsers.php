@@ -13,6 +13,16 @@ class Xenmobile_RESTWS_LocalUsers extends Xenmobile_RESTWS_Authentication
   const SZ_WS_CLASSNAME = 'localusersgroups';
   protected $_arMethodMatrix = array();
 
+  /**
+   * Constructor to define fqdn ports ...
+   *
+   * @param string $szFQDN FQDN of the server (xenmobile.contoso.com)
+   * @param int $nPort Port to access the server Xenmobile_RESTWS_Abstract::PORT_DEFAULT_HTTPS (4443)
+   * @param string $szProtocol https or https Xenmobile_RESTWS_Abstract::PROTOCOL_HTTPS (https)
+   * @param boolean $bVerifySSL shall we verify https certificate (false)
+   *
+   * @return void
+   */
   public function __construct($szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
   {
     $this->log('in', __METHOD__);
@@ -29,7 +39,7 @@ class Xenmobile_RESTWS_LocalUsers extends Xenmobile_RESTWS_Authentication
     parent::__destruct();
   }
 
-  /*
+  /**
   * Get all local users
   *
   * @return mixed see _handleResponse
@@ -43,12 +53,12 @@ class Xenmobile_RESTWS_LocalUsers extends Xenmobile_RESTWS_Authentication
     return (parent::_handleResponse());
   }
 
-  /*
+  /**
   * Get one local users
   *
-  * @param string szName
+  * @param string $szName
   *
-  * @return mixed see _handleResponse
+  * @return mixed see _handleResponse()
   */
   public function GetOneLocalUser( $szName )
   {
@@ -59,13 +69,12 @@ class Xenmobile_RESTWS_LocalUsers extends Xenmobile_RESTWS_Authentication
     return ($this->_handleResponse());
   }
 
-
-  /*
+  /**
   * Add one local user
   *
-  * @param array arQuery
+  * @param array $arQuery
   *
-  * @return mixed see _handleResponser
+  * @return mixed see _handleResponse()
   */
   public function AddOneLocalUser( $arQuery )
   {
@@ -76,17 +85,17 @@ class Xenmobile_RESTWS_LocalUsers extends Xenmobile_RESTWS_Authentication
     return ($this->_handleResponse());
   }
 
-  /*
+  /**
   * Add one local user easily
   * Extra function to easily leverage AddOneLocalUser
   *
-  * @param string szUsername
-  * @param string szPassword
-  * @param string szRole
-  * @param array arGroups
-  * @param array arAttributes 'attributes'=>array('badpwdcount','asuseremail','company','mobile')
+  * @param string $szUsername
+  * @param string $szPassword
+  * @param string $szRole
+  * @param array $arGroups
+  * @param array $arAttributes 'attributes'=>array('badpwdcount','asuseremail','company','mobile')
   *
-  * @return mixed see _handleResponser
+  * @return mixed see _handleResponse()
   *
   */
   public function AddOneLocalUser_Easy( $szUsername, $szPassword, $szRole = 'USER', $arGroups = array(), $arAttributes = null )
@@ -109,12 +118,12 @@ class Xenmobile_RESTWS_LocalUsers extends Xenmobile_RESTWS_Authentication
     return ($this->_handleResponse());
   }
 
-  /*
+  /**
   * Update one local user
   *
   * @param array arQuery
   *
-  * @return mixed see _handleResponser
+  * @return mixed see _handleResponse()
   */
   public function UpdateOneLocalUser( $arQuery )
   {
@@ -125,20 +134,19 @@ class Xenmobile_RESTWS_LocalUsers extends Xenmobile_RESTWS_Authentication
     return ($this->_handleResponse());
   }
 
-  /*
+  /**
   * Update one local user easily
   * Extra function to easily leverage UpdateOneLocalUser
   * BY DESIGN YOU NEED TO PUT BACK ALL PROPERTIES YOU WANT TO KEEP SO...
-
   * You Must define every value, if you do not want to change a value put null it won't be sent for modification.
+  *
   * @param string szUsername
   * @param string szPassword Mandatory null or empty string to not modify it
   * @param string szRole Mandatory need to match user main role :/
   * @param array arGroups Optionnal
   * @param array arAttributes Mandatory 'attributes'=>array('badpwdcount','asuseremail','company','mobile')
   *
-  * @return mixed see _handleResponser
-  *
+  * @return mixed see _handleResponse()
   */
   public function UpdateOneLocalUser_Easy( $szUsername, $szPassword = null, $szRole = null, $arGroups = null, $arAttributes = null )
   {
@@ -170,13 +178,13 @@ class Xenmobile_RESTWS_LocalUsers extends Xenmobile_RESTWS_Authentication
     return ($this->_handleResponse());
   }
 
-  /*
-  * Update one local user
+  /**
+  * Update password of a local user
   *
-  * @param array szName
-  * @param array szNewPassword
+  * @param array $szName
+  * @param array $szNewPassword
   *
-  * @return mixed see _handleResponser
+  * @return mixed see _handleResponse()
   */
   public function ChangeUserPassword( $szUsername, $szNewPassword )
   {
@@ -188,13 +196,13 @@ class Xenmobile_RESTWS_LocalUsers extends Xenmobile_RESTWS_Authentication
     return ($this->_handleResponse());
   }
 
-  /*
+  /**
   * Delete Users
   * DOES NOT WORK get a user not foudn
   *
-  * @param array arUsernames
+  * @param array $arUsernames
   *
-  * @return mixed see _handleResponser
+  * @return mixed see _handleResponse()
   */
   public function DeleteUsers( $arUsernames )
   {
@@ -207,13 +215,13 @@ class Xenmobile_RESTWS_LocalUsers extends Xenmobile_RESTWS_Authentication
     return ($this->_handleResponse());
   }
 
-  /*
+  /**
   * Delete One User
   * DOES NOT WORK get a user not foudn
   *
-  * @param array arUsernames
+  * @param array $arUsernames
   *
-  * @return mixed see _handleResponser
+  * @return mixed see _handleResponse()
   */
   public function DeleteOneUser( $szOneUser )
   {
@@ -225,12 +233,12 @@ class Xenmobile_RESTWS_LocalUsers extends Xenmobile_RESTWS_Authentication
     return ($this->_handleResponse());
   }
 
-  /*
+  /**
   * Import provisioning file
   *
   * @param string szCSVFilePath
   *
-  * @return mixed see _handleResponser
+  * @return mixed see _handleResponse()
   */
   public function ImportProvisioningFile( $szCSVFilePath )
   {

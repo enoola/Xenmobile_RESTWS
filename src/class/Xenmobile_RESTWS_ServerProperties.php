@@ -9,6 +9,16 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
   const SZ_WS_CLASSNAME = 'serverproperties';
   private $_arImplementedMethod = array();
 
+  /**
+   * Constructor to define fqdn ports ...
+   *
+   * @param string $szFQDN FQDN of the server (xenmobile.contoso.com)
+   * @param int $nPort Port to access the server Xenmobile_RESTWS_Abstract::PORT_DEFAULT_HTTPS (4443)
+   * @param string $szProtocol https or https Xenmobile_RESTWS_Abstract::PROTOCOL_HTTPS (https)
+   * @param boolean $bVerifySSL shall we verify https certificate (false)
+   *
+   * @return void
+   */
   public function __construct($szFQDN, $nPort = parent::PORT_DEFAULT_HTTPS, $szProtocol = parent::PROTOCOL_HTTPS, $bVerifySSL = false)
   {
     $this->log('in', __METHOD__);
@@ -23,10 +33,10 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
     parent::__destruct();
   }
 
-  /*
+  /**
    * Get all current xenmobile server properties,
    *
-   * @param array() arQuery ['start'=>0-999, 'limit'=>0-999, "sortOrder":"ASC,DESC,DSC","sortColumn":"ID,SERIAL,IMEI...","enableCount":"false]
+   * @param array() $arQuery ['start'=>0-999, 'limit'=>0-999, "sortOrder":"ASC,DESC,DSC","sortColumn":"ID,SERIAL,IMEI...","enableCount":"false]
    * @return objStdClass() arQuery : {(int)status,(string)message,(objStdClass)currentFilter->(array)detail}
    *
    * cf : https://docs.citrix.com/en-us/xenmobile/10-3/xenmobile-rest-api-reference-main.html
@@ -59,18 +69,17 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
     throw new Xenmobile_RESTWS_Exception( $this->getLastRequestResult()->message, $this->getLastRequestResult()->status );
   }
 
-  /*
+  /**
   * Get server property by filter
   *
-  * @param array arQuery
-      "start": 0,
-      "limit": 1000,
-      "orderBy": "name",
-      "sortOrder": "desc",
-      "searchStr": "justaserver1"
+  * @param array $arQuery
+  *    "start": 0,
+  *    "limit": 1000,
+  *    "orderBy": "name",
+  *    "sortOrder": "desc",
+  *    "searchStr": "justaserver1"
   * @return mixed
   */
-
   public function GetServerPropertiesByFilter( $arQuery )
   {
     $this->log('in', __METHOD__);
@@ -80,18 +89,17 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
     return ( parent::_handleResponse() );
   }
 
-  /*
+  /**
   * Get server property by filter
   *
-  * @param array arQuery
-      "start": 0,
-      "limit": 1000,
-      "orderBy": "name",
-      "sortOrder": "desc",
-      "searchStr": "justaserver1"
-  * @return mixed
+  * @param array $arQuery
+  *    "start": 0,
+  *    "limit": 1000,
+  *    "orderBy": "name",
+  *    "sortOrder": "desc",
+  *    "searchStr": "justaserver1"
+  * @return mixed _handleResponse()
   */
-
   public function GetServerPropertiesByFilter_Easy( $szSearch, $szOrderBy = 'name', $szSortOrder = 'desc', $nStart = 0, $nLimit = 10 )
   {
     $this->log('in', __METHOD__);
@@ -107,10 +115,10 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
   }
 
 
-  /*
+  /**
    * Add a server property
    *
-   * @param array arQuery ('value'=>(string),'name'=>(string),'displayName'=>(string), 'description'=>(string))
+   * @param array $arQuery ('value'=>(string),'name'=>(string),'displayName'=>(string), 'description'=>(string))
    *
    * @return (StdClass|null)
    *
@@ -124,8 +132,8 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
     return (parent::_handleResponse());
   }
 
-  /*
-   * Add a server property
+  /**
+   * Add a server property easily
    *
    * @param string szName
    * @param string szValue
@@ -140,19 +148,18 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
 
     $arQuery = array('name'=>$szName,'value'=>$szValue, 'displayName'=>$szDisplayName,'description'=>$szDescription);
 
-    //$retValue = $this->_doRequest(null, null, $arQuery, 'POST');
     $this->AddServerProperty( $arQuery );
 
     return (parent::_handleResponse());
   }
 
 
-  /*
+  /**
    * Edit a server property
    *
-   * @param array arQuery  ('value'=>(string),'name'=>(string),'displayName'=>(string), 'description'=>(string))
+   * @param array $arQuery  ('value'=>(string),'name'=>(string),'displayName'=>(string), 'description'=>(string))
    *
-   * @return (StdClass|null)
+   * @return mixed see _handleResponse()
    *
    */
   public function EditServerProperty(  $arQuery )
@@ -164,7 +171,7 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
     return (parent::_handleResponse());
   }
 
-  /*
+  /**
    * Edit a server property
    *
    * @param string szName
@@ -186,10 +193,10 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
     return (parent::_handleResponse());
   }
 
-  /*
-   * Reset server property
+  /**
+   * Reset server properties to their default value
    *
-   * @param array arQuery ( array('name1,name2') )
+   * @param array $arSequentialNamesOfPropertiesToReset sequential array with ppt names
    *
    * @return (StdClass|null)
    * @todo checkout what is wrong with the query
@@ -208,7 +215,7 @@ class Xenmobile_RESTWS_ServerProperties extends Xenmobile_RESTWS_Authentication
     return (parent::_handleResponse());
   }
 
-  /*
+  /**
    * Delete server properties (return bad request format whatever I try)
    *
    * @param array arSequentialNamesOfPropertiesToReset ( array('name1,name2') )
